@@ -1,21 +1,21 @@
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:8081/user";
+const BASE_URL = "http://localhost:8081"; // Remove /user from here
 
 class AdminService {
-  // वापरकर्त्याची नोंदणी (Register user)
+  // Register user
   addAdminUser(user) {
-    return axios.post(BASE_URL + "add", user); // 'addAdminUser' नव्हे, 'add'
+    return axios.post(BASE_URL + "/adduser", user); // ✅ Correct endpoint
   }
 
-  // सर्व users मिळवा
+  // Get all users
   getAllUsers() {
-    return axios.get(BASE_URL + "view"); // "/users" नव्हे, "/view"
+    return axios.get(BASE_URL + "/users/view"); // ✅ Correct endpoint
   }
 
-  // User delete करा
+  // Delete user
   deleteUser(id) {
-    return axios.delete(BASE_URL + `delete/${id}`);
+    return axios.delete(BASE_URL + `/delete/${id}`);
   }
 }
 
