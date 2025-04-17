@@ -8,22 +8,30 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Category from './pages/Category';
 import SearchResults from './pages/SearchResults';
+
 import ProductInfo from './productInfo/ProductInfo';
-import Profile from './pages/Profile';
 import ProductList from './pages/ProductList';
+
+/* Admin Imports */
 import AdminDashboard from './pages/admin/AdminDashboard';
-import UserDashboard from './pages/UserDashboard';
-import AddProduct from './pages/AddProduct';
-import Cart from './pages/Cart';
-import Order from './pages/Order';
-import Payment from './pages/Payment';
+import AddProduct from './pages/admin/AddProduct';
+import ViewProducts from './pages/admin/ViewProducts';
+import ViewUsers from './pages/admin/ViewUsers';
+import ViewOrders from './pages/admin/ViewOrders';
+import ViewCategories from './pages/admin/ViewCategories';
+import AdminProfile from './pages/admin/AdminProfile';
+
+/* User Imports */
+import UserDashboard from './pages/user/UserDashboard';
 
 
 function App() {
   return (
     <Router>
       <Navbar />
-      <div className="container mt-4">
+
+      {/* 🟨 Add marginTop to prevent overlap with fixed navbar */}
+      <div className="container" style={{ marginTop: '80px' }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
@@ -32,22 +40,27 @@ function App() {
           <Route path="/search-results" element={<SearchResults />} />
           <Route path="/category/:category" element={<ProductList />} />
           <Route path="/search" element={<ProductList />} />
-
           <Route path="/productInfo" element={<ProductInfo />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="/products" element={<ProductList />} />  
+
+          {/* Admin Routes */}
           <Route path="/admin/AdminDashboard" element={<AdminDashboard />} />
-          <Route path="user/UserDashboard" element={<UserDashboard />} />
           <Route path="/admin/add-product" element={<AddProduct />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/order" element={<Order />} />
-          <Route path="/payment" element={<Payment />} />
-
-
-
+          <Route path="/admin/products" element={<ViewProducts />} />
+          <Route path="/admin/users" element={<ViewUsers />} />
+          <Route path="/admin/ViewOrders" element={<ViewOrders />} />
+          <Route path="/admin/ViewCategories" element={<ViewCategories />} />
+          <Route path="/admin/profile" element={<AdminProfile />} />
+          
+          {/* User Routes */}
+          <Route path="/user/UserDashborad" element={<UserDashboard />} />
+         
+          
+          {/* Fallback Route */}
 
         </Routes>
       </div>
+
       <Footer />
     </Router>
   );

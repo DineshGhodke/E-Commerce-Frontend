@@ -17,9 +17,11 @@ function Login() {
     try {
       const response = await LoginService.loginUser(loginData);
 
-      if (response.data === "Login successful!") {
+      if (response.status === 200) {
         alert("Login successful!");
-        if (loginData.role === 'ADMIN') {
+        console.log(response.data.role)
+        if (response.data.role === 'ADMIN') {
+
           navigate('/admin/AdminDashboard');
         } else {
           navigate('/user/UserDashboard');

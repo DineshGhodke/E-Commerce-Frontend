@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react';// Import Bootstrap CSS
+import './Footer.css';  // Import custom CSS for Footer
 
 function Footer() {
   return (
