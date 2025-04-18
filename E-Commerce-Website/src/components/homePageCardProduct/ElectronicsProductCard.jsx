@@ -6,13 +6,13 @@ const electronicProducts = [
     id: 1,
     image: "/ElectronicsImages/apple-iphone-14-pro-max-1.jpg",
     title: "Apple iPhone 14 Pro Max",
-    price: 15999,
+    price: 150000,
   },
   {
     id: 2,
     image: "/ElectronicsImages/Boot HeadPhone.jpeg",
     title: " Wireless Earbuds",
-    price: 54999,
+    price: 1000,
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ const electronicProducts = [
     id: 4,
     image: "/ElectronicsImages/laptop1.jpeg",
     title: "ASUS Lpatop",
-    price: 3499,
+    price: 40000,
   }
 ];
 

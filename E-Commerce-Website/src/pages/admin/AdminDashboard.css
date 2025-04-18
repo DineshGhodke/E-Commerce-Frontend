@@ -1,10 +1,48 @@
-.dashboard-content {
-  padding: 2rem;
-  background-color: #f8f9fa;
+/* Sidebar Styles */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
   min-height: 100vh;
+  background-color: #2c3e50;
+  color: white;
+  padding-top: 60px; /* if there's a navbar */
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar h4 {
+  text-align: center;
+
+}
+
+.sidebar nav {
+  text-align: center;
+}
+
+.sidebar.center .nav-link {
+  text-align: center;
   width: 100%;
 }
 
+
+/* Main Dashboard Content */
+.dashboard-content {
+  margin-left: 220px; /* match sidebar width */
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  width: calc(100% - 220px);
+}
+
+/* Cards */
 .card {
   border-radius: 1rem;
   transition: all 0.3s ease;
@@ -15,28 +53,28 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Headings */
 h2.text-center {
   font-weight: 700;
   color: #343a40;
 }
 
-.sidebar {
- 
-  background-color: #343a40;
-  color: #fff;
-  padding: 1rem;
-  min-height: 100vh;
-  width:250px;
-  
-}
-.sidebar a {
-  color: #fff;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  display: block;
-  transition: background-color 0.3s ease;
+/* Analytics Card */
+.analytics-card {
+  border-left: 5px solid;
+  padding: 10px;
 }
 
+/* Bar Graph */
+.bar-graph {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 50px;
+}
 
-
-
+.bar {
+  width: 6px;
+  background-color: #007bff;
+  border-radius: 2px;
+}

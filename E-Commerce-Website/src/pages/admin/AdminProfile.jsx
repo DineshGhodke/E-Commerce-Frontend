@@ -3,9 +3,9 @@ import Sidebar from "./Sidebar";
 import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
+import "./AdminProfile.css"; // Add this new CSS
 
 const AdminProfile = () => {
-  // Dummy profile data
   const admin = {
     name: "Dinesh Ghodke",
     email: "admin@example.com",
@@ -15,10 +15,9 @@ const AdminProfile = () => {
 
   const navigate = useNavigate();
 
-  // Handle logout
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn"); // Remove login status from local storage
-    navigate("/login"); // Redirect to login page
+    localStorage.removeItem("isLoggedIn");
+    navigate("/login");
   };
 
   return (
@@ -33,15 +32,19 @@ const AdminProfile = () => {
           </Button>
         </div>
 
-        <Card className="shadow-sm mt-3">
+        <Card className="shadow-sm profile-card">
           <Card.Body>
-            <Card.Title>{admin.name}</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">{admin.role}</Card.Subtitle>
+            <div className="d-flex align-items-center mb-3">
+              <i className="bi bi-person-circle profile-icon me-3"></i>
+              <div>
+                <Card.Title className="mb-0">{admin.name}</Card.Title>
+                <Card.Subtitle className="text-muted">{admin.role}</Card.Subtitle>
+              </div>
+            </div>
             <Card.Text>
               <strong>Email:</strong> {admin.email} <br />
               <strong>Joined:</strong> {admin.joined}
             </Card.Text>
-            {/* Logout Button */}
             <Button variant="danger" onClick={handleLogout}>
               Logout
             </Button>

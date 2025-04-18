@@ -55,7 +55,7 @@ function Navbar() {
             <input className="form-control me-2" type="search" placeholder="Search"
               value={search} onChange={(e) => setSearch(e.target.value)} />
             <button className="btn btn-outline-light" type="submit">
-              <i className="bi bi-search"></i>
+              <i className="bi bi-search"></i> 
             </button>
           </form>
 

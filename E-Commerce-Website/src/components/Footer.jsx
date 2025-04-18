@@ -3,9 +3,9 @@ import './Footer.css';  // Import custom CSS for Footer
 
 function Footer() {
   return (
-    <footer className="bg-dark text-light text-center py-3 mt-4">
+    <footer className="bg-primary text-light text-center py-3 mt-4">
       <div className="container">
-        &copy; {new Date().getFullYear()} E-Commerce App. All rights reserved.
+        &copy; {new Date().getFullYear()} www.E-Shop.com . All rights reserved.
       </div>
     </footer>
   );
