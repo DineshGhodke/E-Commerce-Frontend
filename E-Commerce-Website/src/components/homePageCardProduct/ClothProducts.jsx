@@ -1,8 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Loader = () => <div>लोड होत आहे...</div>;
-
 const productData = [
     {
         id: 1,
@@ -47,11 +45,12 @@ const productData = [
 ];
 
 const ClothProductCard = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+
     return (
         <div className='mt-4'>
             <div className='mb-4'>
-                <h1 className='h4'>BestSelling Products</h1> {/* Smaller Heading */}
+                <h1 className='h4'>BestSelling Products</h1>
             </div>
 
             <div className='container'>
@@ -59,21 +58,31 @@ const ClothProductCard = () => {
                     {productData.map((item, index) => {
                         const { image, title, price } = item;
                         return (
-                            <div key={index} className='col-12 col-sm-6 col-md-3 mb-3'> {/* Reduced column size */}
-                                <div className='card h-100'> {/* Removed custom height */}
-                                    <img 
-                                      onClick={()=> navigate('/productInfo')} // Navigate to product info page on click
-                                        className='card-img-top' 
-                                        src={image} 
-                                        alt="product" 
-                                        style={{ height: '150px', objectFit: 'contain' }} 
-                                    /> {/* Smaller image */}
-                                    <div className='card-body d-flex flex-column justify-content-between'> {/* Flexbox for layout */}
-                                        <h5 className='card-title'>{title.substring(0, 20)}</h5> {/* Shortened title */}
-                                        <p className='card-text'>₹ {price}</p>
+                            <div key={index} className='col-12 col-sm-6 col-md-3 mb-4'>
+                                <div className='card h-100 shadow' style={{ minHeight: '360px' }}>
+                                    <div
+                                        style={{
+                                            height: '180px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            overflow: 'hidden',
+                                            padding: '10px'
+                                        }}
+                                        onClick={() => navigate('/productInfo', { state: item })}
+                                    >
+                                        <img
+                                            src={image}
+                                            alt="product"
+                                            style={{ maxHeight: '100%', maxWidth: '100%', cursor: 'pointer' }}
+                                        />
                                     </div>
-                                    <div className='card-footer'>
-                                        <button className='btn btn-primary btn-sm w-100'>Add to Cart</button> {/* Smaller button */}
+                                    <div className='card-body text-center'>
+                                        <h6 className='card-title'>{title.substring(0, 30)}...</h6>
+                                        <p className='card-text text-success fw-bold'>₹ {price}</p>
+                                    </div>
+                                    <div className='card-footer text-center'>
+                                        <button className='btn btn-primary btn-sm w-100'>Add to Cart</button>
                                     </div>
                                 </div>
                             </div>

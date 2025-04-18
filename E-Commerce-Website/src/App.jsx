@@ -8,9 +8,13 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Category from './pages/Category';
 import SearchResults from './pages/SearchResults';
-
 import ProductInfo from './productInfo/ProductInfo';
 import ProductList from './pages/ProductList';
+
+
+// /* Product Imports  nav bar category*/
+// import ClothProducts from './components/homePageCardProduct/ClothProducts';
+// import ElectronicsProductCard from './components/homePageCardProduct/ElectronicsProducts';
 
 /* Admin Imports */
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -21,8 +25,11 @@ import ViewOrders from './pages/admin/ViewOrders';
 import ViewCategories from './pages/admin/ViewCategories';
 import AdminProfile from './pages/admin/AdminProfile';
 
+
+
 /* User Imports */
 import UserDashboard from './pages/user/UserDashboard';
+import ClothProductCard from './components/homePageCardProduct/ClothProducts';
 
 
 function App() {
@@ -43,6 +50,10 @@ function App() {
           <Route path="/productInfo" element={<ProductInfo />} />
           <Route path="/products" element={<ProductList />} />  
 
+          {/* Product Imports
+          <Route path="/ElectronicsProduct/electronics" element={<ElectronicsProductCard />} />
+          <Route path="/ClothProducts" element={<ClothProducts />} /> */}
+
           {/* Admin Routes */}
           <Route path="/admin/AdminDashboard" element={<AdminDashboard />} />
           <Route path="/admin/add-product" element={<AddProduct />} />
@@ -53,7 +64,8 @@ function App() {
           <Route path="/admin/profile" element={<AdminProfile />} />
           
           {/* User Routes */}
-          <Route path="/user/UserDashborad" element={<UserDashboard />} />
+          <Route path="/user/UserDashborad" element={<UserDashboard />} />  
+          <Route path="/user/ClothProducts" element={<ClothProductCard />} />
          
           
           {/* Fallback Route */}
