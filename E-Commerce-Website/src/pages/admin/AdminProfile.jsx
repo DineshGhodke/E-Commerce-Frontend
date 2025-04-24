@@ -6,41 +6,29 @@ import "./AdminDashboard.css";
 import "./AdminProfile.css"; // Add this new CSS
 
 const AdminProfile = () => {
-  const admin = {
-    name: "Dinesh Ghodke",
-    email: "admin@example.com",
-    role: "Administrator",
-    joined: "April 2023",
-  };
-
   const navigate = useNavigate();
+  const admin = JSON.parse(localStorage.getItem("admin")); // 🔹 Step 2
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("admin"); // 🔹 Clear admin info
     navigate("/login");
   };
+
+  // 🔹 Step 3
+  if (!admin) {
+    return <div className="p-4"><h5>No admin data found. Please login again.</h5></div>;
+  }
 
   return (
     <div className="d-flex">
       <Sidebar />
-
       <div className="dashboard-content">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h3>Admin Profile</h3>
-          <Button variant="secondary" href="/admin/AdminDashboard">
-            ← Back to Dashboard
-          </Button>
-        </div>
-
-        <Card className="shadow-sm profile-card">
+        <h3>Admin Profile</h3>
+        <Card>
           <Card.Body>
-            <div className="d-flex align-items-center mb-3">
-              <i className="bi bi-person-circle profile-icon me-3"></i>
-              <div>
-                <Card.Title className="mb-0">{admin.name}</Card.Title>
-                <Card.Subtitle className="text-muted">{admin.role}</Card.Subtitle>
-              </div>
-            </div>
+            <Card.Title>{admin.name}</Card.Title>
+            <Card.Subtitle>{admin.role}</Card.Subtitle>
             <Card.Text>
               <strong>Email:</strong> {admin.email} <br />
               <strong>Joined:</strong> {admin.joined}
@@ -54,5 +42,7 @@ const AdminProfile = () => {
     </div>
   );
 };
+
+
 
 export default AdminProfile;

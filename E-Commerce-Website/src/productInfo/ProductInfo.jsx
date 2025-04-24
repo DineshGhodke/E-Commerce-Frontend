@@ -9,7 +9,7 @@ function ProductInfo() {
     return <h4 className="text-center mt-5">No product selected!</h4>;
   }
 
-  const { image, title, desc, price, category, discount } = state;
+  const { image, title, desc, price, categories, discount } = state;
 
   const handleOrder = () => {
     alert(`Order placed for: ${title}`);
@@ -43,7 +43,7 @@ function ProductInfo() {
           <Card.Text>{desc}</Card.Text>
           <Card.Text className="fw-bold text-success">₹ {price}</Card.Text>
           {discount && <Card.Text className="text-danger fw-bold">{discount}% OFF</Card.Text>}
-          <Card.Text><strong>Category:</strong> {category}</Card.Text>
+          <Card.Text><strong>categories:</strong> {categories}</Card.Text>
           <Button variant="primary" className="me-2" onClick={handleAddToCart}>
             Add to Cart
           </Button>

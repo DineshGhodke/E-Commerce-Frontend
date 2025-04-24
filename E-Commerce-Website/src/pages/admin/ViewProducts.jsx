@@ -1,57 +1,182 @@
-import React from 'react';
-import { Table, Button } from 'react-bootstrap';
-import Sidebar from './Sidebar';
-import './AdminDashboard.css';
+import React, { useState, useEffect } from "react";
+import "./ViewProducts.css"; // Import your CSS file for styling
 
 const ViewProducts = () => {
-  // Later: fetch from backend
-  const products = [
-    { id: 1, name: 'Mobile', price: 9999, category: 'Electronics' },
-    { id: 2, name: 'Shoes', price: 1999, category: 'Fashion' },
-  ];
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [error, setError] = useState(null);
+  const [searchName, setSearchName] = useState(""); // State for search input
+
+  // Fetch products from the backend
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:8081/product/view");
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const data = await response.json();
+        setProducts(data); // Set products to state
+      } catch (error) {
+        setError(error.message); // Set error if any
+      }
+    };
+
+    fetchProducts(); // Call the fetch function on component mount
+  }, []);
+
+  // Fetch categories from the backend
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("http://localhost:8081/categories/view");
+        // alert(response);
+        if (!response.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+        const data = await response.json();
+        setCategories(data); // Set categories to state
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchCategories(); // Call the fetch function on component mount
+  }, []);
+
+  // Handle the delete action
+  const handleDelete = async (productId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8081/product/delete/${productId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete product");
+      }
+      setProducts(products.filter((product) => product.id !== productId));
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  // Handle the update action
+  const handleUpdate = (productId) => {
+    window.location.href = `/update-product/${productId}`;
+  };
+
+  // Handle the search action by product name
+  const handleSearch = async () => {
+    try {
+      const response = await fetch(`http://localhost:8081/product/view`);
+      console.log("image :: ", response.imageUrl);
+
+      if (!response.ok) {
+        throw new Error("Failed to search products");
+      }
+      const data = await response.json();
+      if (data === "Product Name Not Found!") {
+        setError("No product found with the given name");
+        setProducts([]);
+      } else {
+        setProducts(data);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   return (
-    <div className="d-flex">
-      <Sidebar />
-      
-      <div className="dashboard-content">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h3>All Products</h3>
-          <Button variant="secondary" href="/admin/AdminDashboard">
-            ← Back to Dashboard
-          </Button>
-        </div>
+    <div className="container">
+      <div className="header-bar">
+        <h1>Product List</h1>
+        <button
+          onClick={() => window.history.back()}
+          className="btn btn-secondary back-button"
+        >
+          Back
+        </button>
+      </div>
 
-        <Table striped bordered hover responsive>
+      {error && <div className="alert alert-danger">{error}</div>}
+
+      <div className="search-bar">
+        <input
+          type="text"
+          value={searchName}
+          onChange={(e) => setSearchName(e.target.value)}
+          placeholder="Search by product name"
+        />
+        <button onClick={handleSearch} className="btn btn-info">
+          Search
+        </button>
+      </div>
+
+      {products.length > 0 ? (
+        <table className="product-table">
           <thead>
             <tr>
-              <th>#</th>
+              <th>ID</th>
               <th>Name</th>
-              <th>Price (₹)</th>
               <th>Category</th>
-              <th>Actions</th>
+              <th>Price</th>
+              <th>Image</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {products.map((prod, index) => (
-              <tr key={prod.id}>
-                <td>{index + 1}</td>
-                <td>{prod.name}</td>
-                <td>{prod.price}</td>
-                <td>{prod.category}</td>
+            {products.map((product) => (
+              <tr key={product.id}>
+                <td>{product.id}</td>
+                <td>{product.name}</td>
+                {/* Show category name based on categoryId */}
                 <td>
-                  <Button variant="warning" size="sm" className="me-2">
-                    Edit
-                  </Button>
-                  <Button variant="danger" size="sm">
-                    Delete
-                  </Button>
+                  {categories.find((c) => c.id === product.categoryId)?.name ||
+                    "Unknown"}
+                </td>
+                <td>₹{product.price}</td>
+                <td>
+                  <img
+                    src={
+                      product.imageUrl
+                        ? `http://localhost:8081/imgs/${product.imageUrl}`
+                        : "https://via.placeholder.com/300"
+                    }
+                    alt={product.name}
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "cover",
+                    }}
+                  />
+                </td>
+                <td>
+                  <div className="action-buttons">
+                    <button
+                      onClick={() => handleUpdate(product.id)}
+                      className="btn btn-warning"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(product.id)}
+                      className="btn btn-danger"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
-        </Table>
-      </div>
+        </table>
+      ) : (
+        <div className="empty-state">
+          <p>No products available</p>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import Sidebar from "./Sidebar";
+import UserService from "../../services/UserService"; // ✅ Adjust the path as needed
 import "./AdminDashboard.css";
 
 const ViewUsers = () => {
-  // Static user data - Later replace with API call
-  const users = [
-    { id: 1, name: "Rahul Sharma", email: "rahul@gmail.com", role: "User" },
-    { id: 2, name: "Sneha Patil", email: "sneha@example.com", role: "Admin" },
-    { id: 3, name: "Ajay Kadam", email: "ajay@gmail.com", role: "User" },
-  ];
+  const [users, setUsers] = useState([]);
+
+  // Load users from API
+  const loadUsers = async () => {
+    try {
+      const response = await UserService.getAllUsers();
+      setUsers(response.data); // assuming response.data is an array of users
+    } catch (error) {
+      console.error("Failed to fetch users:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
 
   return (
     <div className="d-flex">
@@ -33,14 +43,20 @@ const ViewUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
-              <tr key={user.id}>
-                <td>{index + 1}</td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
+            {users.length > 0 ? (
+              users.map((user, index) => (
+                <tr key={user.id}>
+                  <td>{index + 1}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.role}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="text-center">No users found</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </Table>
       </div>

@@ -22,6 +22,8 @@ const Sidebar = () => {
         <Nav.Link as={Link} to="/admin/users" className="nav-link">View Users</Nav.Link>
         {/* <Nav.Link as={Link} to="/admin/orders" className="nav-link">Orders</Nav.Link> */}
         <Nav.Link as={Link} to="/admin/ViewOrders" className="nav-link">ViewOrders</Nav.Link>
+        <Nav.Link as={Link} to="/admin/add-category">Add Category</Nav.Link>
+
         <Nav.Link as={Link} to="/admin/ViewCategories" className="nav-link">View Categories</Nav.Link>
         <Nav.Link as={Link} to="/admin/settings" className="nav-link">Settings</Nav.Link>
         <Nav.Link as={Link} to="/admin/profile" className="nav-link">Profile</Nav.Link>

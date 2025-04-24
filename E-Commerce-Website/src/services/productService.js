@@ -1,30 +1,27 @@
-const API_BASE_URL = 'http://localhost:8081/product'; // Corrected
+// import axios from 'axios';
 
-export const addProduct = async (productData, imageFile) => {
-  const formData = new FormData();
-  formData.append('name', productData.name);
-  formData.append('description', productData.description);
-  formData.append('price', productData.price);
-  formData.append('stock', productData.stock); // Include stock
-  formData.append('category', productData.category);
+// const API_BASE_URL = 'http://localhost:8081/product/addProduct';
 
-  if (imageFile) {
-    formData.append('image', imageFile);
-  }
+// export const addProduct = async (product, imageFile) => {
+//   const formData = new FormData();
+//   formData.append('name', product.name);
+//   formData.append('description', product.description);
+//   formData.append('price', product.price);
+//   formData.append('stock', product.stock);
+//   formData.append('categoryId', product.category); // Must be int/string, not undefined
+//   formData.append('imageUrl', imageFile); // Must match @RequestParam("imageUrl")
 
-  try {
-    const response = await fetch(`${API_BASE_URL}/addProduct`, {
-      method: 'POST',
-      body: formData,
-    });
+//   console.log([...formData.entries()]);
 
-    if (!response.ok) {
-      throw new Error('Failed to add product');
-    }
-
-    return await response.text(); // Your backend returns String, not JSON
-  } catch (error) {
-    console.error('Error adding product:', error);
-    throw error;
-  }
-};
+//   try {
+//     const response = await axios.post(`${API_BASE_URL}/addProduct`, formData, {
+//       headers: {
+//         'Content-Type': 'multipart/form-data',
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error adding product:', error.response?.data || error.message);
+//     throw new Error('Failed to add product');
+//   }
+// };

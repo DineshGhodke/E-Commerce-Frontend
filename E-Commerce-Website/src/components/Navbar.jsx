@@ -44,8 +44,8 @@ function Navbar() {
                 <i className="bi bi-grid"></i> Category
               </a>
               <ul className="dropdown-menu">
-                <li><Link className="dropdown-item" to="/ElectronicsProduct/electronics">Electronics</Link></li>
-                <li><Link className="dropdown-item" to="/ClothProducts/fashion">Fashion</Link></li>
+                <li><Link className="dropdown-item" to="/category/electronics">Electronics</Link></li>
+                <li><Link className="dropdown-item" to="/category/fashion">Fashion</Link></li>
                 
               </ul>
             </li>

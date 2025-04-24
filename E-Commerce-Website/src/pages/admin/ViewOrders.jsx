@@ -1,93 +1,67 @@
-import React from "react";
-import { Table, Button, Badge } from "react-bootstrap";
-import Sidebar from "./Sidebar";
-import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
-import "./AdminDashboard.css";
+import React, { useEffect, useState } from 'react';
 
-const ViewOrders = () => {
-  const navigate = useNavigate(); // ✅ Hook for navigation
+function AdminOrders() {
+  const [orders, setOrders] = useState([]);
 
-  const orders = [
-    {
-      id: 101,
-      customer: "Amit Patil",
-      product: "Redmi Note 12",
-      amount: 12999,
-      status: "Pending",
-    },
-    {
-      id: 102,
-      customer: "Sneha Joshi",
-      product: "Nike Shoes",
-      amount: 2999,
-      status: "Shipped",
-    },
-    {
-      id: 103,
-      customer: "Ravi K",
-      product: "Apple Watch",
-      amount: 19999,
-      status: "Delivered",
-    },
-  ];
+  useEffect(() => {
+    fetch("http://localhost:8081/order/view") // backend API
+      .then(res => res.json())
+      .then(data => setOrders(data))
+      .catch(err => console.error("Error fetching orders:", err));
+  }, []);
+
+  const handleStatusUpdate = (orderId) => {
+    // Status update logic placeholder
+    alert(`Update status for Order ID: ${orderId}`);
+  };
 
   return (
-    <div className="d-flex">
-      <Sidebar />
-      <div className="dashboard-content">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h3>All Orders</h3>
-          <Button variant="secondary" onClick={() => navigate("/admin/AdminDashboard")}>
-            ← Back to Dashboard
-          </Button>
-        </div>
-
-        <Table striped bordered hover responsive>
-          <thead>
+    <div className="container mt-4">
+      <div className="card p-4 shadow">
+        <h3 className="mb-4">Manage Orders</h3>
+        <table className="table table-bordered table-hover">
+          <thead className="table-light">
             <tr>
-              <th>#Order ID</th>
-              <th>Customer</th>
-              <th>Product</th>
-              <th>Amount (₹)</th>
+              <th>Order ID</th>
+              <th>User ID</th>
+              <th>Total Amount</th>
               <th>Status</th>
+              <th>Created At</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+            {orders.length > 0 ? orders.map((order) => (
               <tr key={order.id}>
                 <td>{order.id}</td>
-                <td>{order.customer}</td>
-                <td>{order.product}</td>
-                <td>{order.amount}</td>
+                <td>{order.user_id}</td>
+                <td>₹{order.total_amount}</td>
                 <td>
-                  <Badge
-                    bg={
-                      order.status === "Pending"
-                        ? "warning"
-                        : order.status === "Shipped"
-                        ? "info"
-                        : "success"
-                    }
-                  >
+                  <span className={`badge ${
+                    order.status === 'PENDING' ? 'bg-warning' :
+                    order.status === 'CONFIRMED' ? 'bg-info' :
+                    order.status === 'SHIPPED' ? 'bg-primary' :
+                    order.status === 'DELIVERED' ? 'bg-success' :
+                    'bg-danger'
+                  }`}>
                     {order.status}
-                  </Badge>
+                  </span>
                 </td>
+                <td>{new Date(order.created_at).toLocaleString()}</td>
                 <td>
-                  <Button variant="outline-success" size="sm" className="me-2">
-                    Update
-                  </Button>
-                  <Button variant="outline-danger" size="sm">
-                    Cancel
-                  </Button>
+                  <button className="btn btn-sm btn-success" onClick={() => handleStatusUpdate(order.id)}>
+                    Update Status
+                  </button>
                 </td>
               </tr>
-            ))}
+            )) : (
+              <tr><td colSpan="6" className="text-center">No orders found</td></tr>
+            )}
           </tbody>
-        </Table>
+        </table>
       </div>
     </div>
   );
-};
+}
 
-export default ViewOrders;
+export default AdminOrders;

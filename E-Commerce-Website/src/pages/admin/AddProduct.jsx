@@ -1,144 +1,157 @@
-import React, { useState } from 'react';
-import { Form, Button, Card, Image } from 'react-bootstrap';
-import Sidebar from './Sidebar';
-import './AdminDashboard.css';
-import { addProduct } from '../../services/productService'; // Adjust path as needed
+import React, { useState, useEffect } from 'react';
 
-const AddProduct = () => {
+function AddProduct() {
+  const [categories, setCategories] = useState([]);
   const [product, setProduct] = useState({
     name: '',
     description: '',
     price: '',
     stock: '',
-    category: '',
+    categoryId: '',
+    imageUrl: null
   });
 
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  // Fetch categories on component mount
+  useEffect(() => {
+    fetch("http://localhost:8081/categories/view")
+      .then((res) => res.json())
+      .then((data) => setCategories(data))
+      .catch((err) => console.error("Error fetching categories: ", err));
+  }, []);
 
-  const handleChange = (e) => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
-  };
+  // Handle form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('description', product.description);
+    formData.append('price', product.price);
+    formData.append('stock', product.stock);
+    formData.append('categoryId', product.categoryId);
+    formData.append('imageUrl', product.imageUrl);
 
     try {
-      const result = await addProduct(product, imageFile);
-      console.log('Product added:', result);
-      alert('Product added successfully!');
+      const response = await fetch("http://localhost:8081/product/addProduct", {
+        method: 'POST',
+        body: formData
+      });
 
-      // Clear form
-      setProduct({ name: '', description: '', price: '', stock: '', category: '' });
-      setImageFile(null);
-      setImagePreview(null);
+      if (response.ok) {
+        alert("Product added successfully!");
+      } else {
+        throw new Error("Error adding product");
+      }
     } catch (error) {
-      alert('Failed to add product. Please try again.');
+      console.error("Error adding product:", error);
     }
+  };
+
+  const handleChange = (event) => {
+    const { name, value, files } = event.target;
+    setProduct({
+      ...product,
+      [name]: files ? files[0] : value
+    });
+  };
+
+  const handleBack = () => {
+    window.history.back();  // Goes back to the previous page
   };
 
   return (
-    <div className="d-flex">
-      <Sidebar />
+    <div className="container mt-4">
+      <h3>Add Product</h3>
+      
+      {/* Back Button */}
+      <button onClick={handleBack} className="btn btn-secondary mb-3">
+        Back
+      </button>
 
-      <div className="dashboard-content">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h3>Add New Product</h3>
-          <Button variant="secondary" href="/admin/AdminDashboard">
-            ← Back to Dashboard
-          </Button>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Product Name</label>
+          <input
+            type="text"
+            className="form-control"
+            name="name"
+            value={product.name}
+            onChange={handleChange}
+            required
+          />
         </div>
 
-        <Card className="p-4 shadow-sm">
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Product Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                value={product.name}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
+        <div className="form-group">
+          <label>Description</label>
+          <input
+            type="text"
+            className="form-control"
+            name="description"
+            value={product.description}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                name="description"
-                value={product.description}
-                onChange={handleChange}
-              />
-            </Form.Group>
+        <div className="form-group">
+          <label>Price</label>
+          <input
+            type="number"
+            className="form-control"
+            name="price"
+            value={product.price}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                type="number"
-                name="price"
-                value={product.price}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
+        <div className="form-group">
+          <label>Stock</label>
+          <input
+            type="number"
+            className="form-control"
+            name="stock"
+            value={product.stock}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Stock</Form.Label>
-              <Form.Control
-                type="number"
-                name="stock"
-                value={product.stock}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
+        <div className="form-group">
+          <label>Category</label>
+          <select
+            className="form-control"
+            name="categoryId"
+            value={product.categoryId}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                type="text"
-                name="category"
-                value={product.category}
-                onChange={handleChange}
-              />
-            </Form.Group>
+        <div className="form-group">
+          <label>Product Image</label>
+          <input
+            type="file"
+            className="form-control"
+            name="imageUrl"
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Upload Product Image</Form.Label>
-              <Form.Control
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
-              {imagePreview && (
-                <Image
-                  src={imagePreview}
-                  alt="Preview"
-                  thumbnail
-                  className="mt-3"
-                  style={{ maxHeight: '200px' }}
-                />
-              )}
-            </Form.Group>
-
-            <Button variant="success" type="submit">
-              Add Product
-            </Button>
-          </Form>
-        </Card>
-      </div>
+        <button type="submit" className="btn btn-primary mt-3">
+          Add Product
+        </button>
+      </form>
     </div>
   );
-};
+}
 
 export default AddProduct;

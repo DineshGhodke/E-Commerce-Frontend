@@ -4,8 +4,9 @@ import './Home.css'; // Import the custom CSS
 import banner1 from '../assets/banner1.jpg';
 import banner2 from '../assets/banner2.jpg';
 import banner3 from '../assets/banner3.jpg';
-import ClothProductCard from '../components/homePageCardProduct/ClothProducts';
-import ElectronicsProductCard from '../components/homePageCardProduct/ElectronicsProductCard';
+import ProductList from './ProductList';  
+
+
 
 const Home = () => {
   return (
@@ -38,8 +39,8 @@ const Home = () => {
       </div>
 
       {/* Featured Products Section */}
-      <ClothProductCard />
-      <ElectronicsProductCard />
+      <ProductList />
+    
     </div>
   );
 };
