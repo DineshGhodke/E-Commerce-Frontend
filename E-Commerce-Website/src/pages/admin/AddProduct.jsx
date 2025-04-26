@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './AddProduct.css';
 
 function AddProduct() {
   const [categories, setCategories] = useState([]);
@@ -8,15 +10,28 @@ function AddProduct() {
     price: '',
     stock: '',
     categoryId: '',
-    imageUrl: null
+    imageUrl: null,
   });
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // Fetch categories on component mount
   useEffect(() => {
-    fetch("http://localhost:8081/categories/view")
-      .then((res) => res.json())
-      .then((data) => setCategories(data))
-      .catch((err) => console.error("Error fetching categories: ", err));
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('http://localhost:8081/categories/view');
+        if (!response.ok) {
+          throw new Error('Failed to fetch categories');
+        }
+        const data = await response.json();
+        setCategories(data);
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+        setError('Failed to fetch categories. Please try again later.');
+      }
+    };
+
+    fetchCategories();
   }, []);
 
   // Handle form submission
@@ -32,41 +47,47 @@ function AddProduct() {
     formData.append('imageUrl', product.imageUrl);
 
     try {
-      const response = await fetch("http://localhost:8081/product/addProduct", {
+      const response = await fetch('http://localhost:8081/product/addProduct', {
         method: 'POST',
-        body: formData
+        body: formData,
       });
 
       if (response.ok) {
-        alert("Product added successfully!");
+        alert('Product added successfully!');
+        navigate('/admin/products'); // Redirect to the product list page
       } else {
-        throw new Error("Error adding product");
+        throw new Error('Error adding product');
       }
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error('Error adding product:', error);
+      setError('Failed to add product. Please try again later.');
     }
   };
 
+  // Handle input changes
   const handleChange = (event) => {
     const { name, value, files } = event.target;
     setProduct({
       ...product,
-      [name]: files ? files[0] : value
+      [name]: files ? files[0] : value,
     });
-  };
-
-  const handleBack = () => {
-    window.history.back();  // Goes back to the previous page
   };
 
   return (
     <div className="container mt-4">
       <h3>Add Product</h3>
-      
-      {/* Back Button */}
-      <button onClick={handleBack} className="btn btn-secondary mb-3">
-        Back
-      </button>
+
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h3>Add New Product</h3>
+        <button
+          className="btn btn-secondary"
+          onClick={() => navigate('/admin/AdminDashboard')}
+        >
+          ← Back to Dashboard
+        </button>
+      </div>
+
+      {error && <div className="alert alert-danger">{error}</div>}
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">

@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css'; // Import the custom CSS
 import banner1 from '../assets/banner1.jpg';
 import banner2 from '../assets/banner2.jpg';
-import banner3 from '../assets/banner3.jpg';
+import banner3 from '../assets/banner3.webp';
 import ProductList from './ProductList';  
 
 
@@ -21,9 +21,11 @@ const Home = () => {
           <div className="carousel-item active">
             <img src={banner1} className="d-block w-100 carousel-img" alt="Slide 1" />
           </div>
-          <div className="carousel-item">
-            <img src={banner2} className="d-block w-100 carousel-img" alt="Slide 2" />
-          </div>
+          
+          {/* <div className= "banner carousel-item">
+            <img src={banner2} className="d-block w-100 carousel-img" alt="Slide 3" />
+          </div> */}
+
           <div className="carousel-item">
             <img src={banner3} className="d-block w-100 carousel-img" alt="Slide 3" />
           </div>

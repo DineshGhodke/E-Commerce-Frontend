@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -11,8 +10,7 @@ import SearchResults from './pages/SearchResults';
 import ProductInfo from './productInfo/ProductInfo';
 import ProductList from './pages/ProductList';
 import AddCategory from './pages/admin/AddCategory';
-
-
+import Cart from './components/Cart'; 
 
 /* Admin Imports */
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -22,17 +20,17 @@ import ViewUsers from './pages/admin/ViewUsers';
 import ViewOrders from './pages/admin/ViewOrders';
 import ViewCategories from './pages/admin/ViewCategory';
 import AdminProfile from './pages/admin/AdminProfile';
+import UpdateProduct from './pages/admin/UpdateProduct';
 
 /* User Imports */
 import UserDashboard from './pages/user/UserDashboard';
-import {CartProvider}  from './context/CartContext';
-
+import { CartProvider } from './context/CartContext';
 
 function AppContent() {
   const location = useLocation();
 
-  // Hide footer on these routes
-  const hideFooterPaths = ['/login', '/register'];
+  // ✅ Show footer only on these routes
+  const showFooterPaths = ['/'];
 
   return (
     <>
@@ -50,12 +48,9 @@ function AppContent() {
           <Route path="/productInfo" element={<ProductInfo />} />
           <Route path="/products" element={<ProductList />} />
           <Route path="/admin/add-category" element={<AddCategory />} />
-
-          {/* All Products */}
-              
+          <Route path="/cart" element={<Cart />} />
           
 
-          {/* 404 Not Found */}
           {/* Admin Routes */}
           <Route path="/admin/AdminDashboard" element={<AdminDashboard />} />
           <Route path="/admin/add-product" element={<AddProduct />} />
@@ -64,27 +59,27 @@ function AppContent() {
           <Route path="/admin/ViewOrders" element={<ViewOrders />} />
           <Route path="/admin/ViewCategories" element={<ViewCategories />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
+          <Route path="/admin/update-product/:id" element={<UpdateProduct />} />
 
           {/* User Routes */}
-          <Route path="/user/UserDashboard" element={<UserDashboard />} />
-         
+          <Route path="/user/UserDashborad" element={<UserDashboard />} />
         </Routes>
       </div>
 
-      {/* Conditionally show footer */}
-      {!hideFooterPaths.includes(location.pathname) && <Footer />}
+      {/* ✅ Show footer only on Home page */}
+      {showFooterPaths.includes(location.pathname) && <Footer />}
     </>
   );
 }
 
-
 function App() {
   return (
     <Router>
-      <CartProvider> {/* 👈 Wrap everything */}
+      <CartProvider>
         <AppContent />
       </CartProvider>
     </Router>
   );
 }
+
 export default App;

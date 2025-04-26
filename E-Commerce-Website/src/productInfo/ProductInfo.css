@@ -1,0 +1,32 @@
+.product-container {
+    margin-top: 3rem;
+  }
+  
+  .product-image-card {
+    padding: 1rem;
+  }
+  
+  .product-img {
+    max-height: 300px;
+    object-fit: contain;
+    border: 1px solid #eaeaea;
+    border-radius: 10px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .strike-price {
+    text-decoration: line-through;
+    color: gray;
+  }
+  
+  .discount {
+    color: #dc3545;
+    font-weight: bold;
+  }
+  

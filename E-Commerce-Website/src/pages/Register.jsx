@@ -7,7 +7,7 @@ function Register() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    mobile: '',
+    mobileNo: '',
     password: '',
     role: 'USER',
   });
@@ -30,10 +30,10 @@ function Register() {
       errors.email = 'Email is invalid';
     }
 
-    if (!formData.mobile.trim()) {
-      errors.mobile = 'Mobile number is required';
-    } else if (!/^\d{10}$/.test(formData.mobile)) {
-      errors.mobile = 'Mobile must be 10 digits';
+    if (!formData.mobileNo.trim()) {
+      errors.mobileNo = 'Mobile number is required';
+    } else if (!/^\d{10}$/.test(formData.mobileNo)) {
+      errors.mobileNo = 'Mobile must be 10 digits';
     }
 
     if (!formData.password.trim()) {
@@ -48,7 +48,7 @@ function Register() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: '' }); // clear error as user types
+    setErrors({ ...errors, [name]: '' });
   };
 
   const handleSubmit = async (e) => {
@@ -71,42 +71,48 @@ function Register() {
 
   return (
     <div className="register-container d-flex justify-content-center align-items-center">
-      <div className="card p-4 shadow register-card">
+      <div className="card p-4 shadow register-card" style={{ maxWidth: '400px', width: '100%' }}>
         <h3 className="mb-4 text-primary text-center">Register</h3>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label>Name</label>
-            <input type="text" className="form-control" name="name" onChange={handleChange} value={formData.name} />
+            <div className="input-group">
+              <span className="input-group-text"><i className="bi bi-person-circle"></i></span>
+              <input type="text" className="form-control" name="name" onChange={handleChange} value={formData.name} />
+            </div>
             {errors.name && <div className="text-danger">{errors.name}</div>}
           </div>
 
           <div className="mb-3">
             <label>Email</label>
-            <input type="email" className="form-control" name="email" onChange={handleChange} value={formData.email} />
+            <div className="input-group">
+              <span className="input-group-text"><i className="bi bi-envelope-at-fill"></i></span>
+              <input type="email" className="form-control" name="email" onChange={handleChange} value={formData.email} />
+            </div>
             {errors.email && <div className="text-danger">{errors.email}</div>}
           </div>
 
           <div className="mb-3">
             <label>Mobile Number</label>
-            <input type="text" className="form-control" name="mobile" onChange={handleChange} value={formData.mobile} />
-            {errors.mobile && <div className="text-danger">{errors.mobile}</div>}
+            <div className="input-group">
+              <span className="input-group-text"><i className="bi bi-phone-fill"></i></span>
+              <input type="text" className="form-control" name="mobileNo" onChange={handleChange} value={formData.mobileNo} />
+            </div>
+            {errors.mobileNo && <div className="text-danger">{errors.mobileNo}</div>}
           </div>
 
           <div className="mb-3">
             <label>Password</label>
-            <input type="password" className="form-control" name="password" onChange={handleChange} value={formData.password} />
+            <div className="input-group">
+              <span className="input-group-text"><i className="bi bi-lock-fill"></i></span>
+              <input type="password" className="form-control" name="password" onChange={handleChange} value={formData.password} />
+            </div>
             {errors.password && <div className="text-danger">{errors.password}</div>}
           </div>
 
-          <div className="mb-3">
-            <label>Role</label>
-            <select className="form-control" name="role" onChange={handleChange} value={formData.role}>
-              <option value="USER">User</option>
-              <option value="ADMIN">Admin</option>
-            </select>
-          </div>
-
-          <button className="btn btn-primary w-100">Register</button>
+          <button className="btn btn-primary w-100 mt-3">
+            <i className="bi bi-box-arrow-in-right me-2"></i>Register
+          </button>
         </form>
       </div>
     </div>

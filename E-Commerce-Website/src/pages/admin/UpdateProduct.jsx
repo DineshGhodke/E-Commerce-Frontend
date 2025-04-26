@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const UpdateProduct = () => {
-  const { productId } = useParams();
+  const { id } = useParams();
+
   const navigate = useNavigate();
 
   const [product, setProduct] = useState({

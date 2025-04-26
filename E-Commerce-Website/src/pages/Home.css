@@ -1,37 +1,29 @@
-/* Home.css */
-
 .carousel-img {
-  height: 400px;
-  width: 100%;
-  object-fit: cover;
+  height: 300px;
+  width:100%;
+  object-fit: contain; /* Show full image */
+  background-color: #000; /* optional: black background behind image */
 }
 
 body, html {
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* horizontal scroll bandh */
+  overflow-x: hidden;
 }
 
 .section {
   padding: 20px;
 }
 
-/* .container-fluid {
-  padding-left: 0;
-  padding-right: 0;
-} */
-
-
 .carousel {
-  height: 30vh;
-  overflow: hidden; 
+  height: auto; /* Let carousel take height of images */
+  overflow: hidden;
 }
 
-
-/* .carousel-inner img {
-  width: 50%;
-  height: 50%;
-} */
-
+.carousel-img {
+  height: 300px;
+  width: 100%;
+  object-fit: cover; /* Fill the width and height, cropping if needed */
+}
 
 

@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Form, Button, Card } from 'react-bootstrap';
+import { Container, Form, Button, Card, Row, Col } from 'react-bootstrap';
 
 function Profile() {
   const [profile, setProfile] = useState({
     name: '',
     email: '',
-    address: '',
     phone: ''
   });
 
   useEffect(() => {
-    // Fetch profile data (replace with your backend API)
     fetch('/api/user/profile')
       .then(res => res.json())
       .then(data => setProfile(data))
@@ -26,7 +24,7 @@ function Profile() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Update profile (replace with real backend call)
+
     fetch('/api/user/profile', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -35,6 +33,10 @@ function Profile() {
       .then(res => res.json())
       .then(data => alert('Profile updated successfully!'))
       .catch(err => console.error('Error updating profile:', err));
+  };
+
+  const handleBlock = () => {
+    alert('User has been blocked. (Demo action)');
   };
 
   return (
@@ -54,16 +56,18 @@ function Profile() {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Address</Form.Label>
-            <Form.Control type="text" name="address" value={profile.address} onChange={handleChange} />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
             <Form.Label>Phone</Form.Label>
             <Form.Control type="text" name="phone" value={profile.phone} onChange={handleChange} />
           </Form.Group>
 
-          <Button type="submit" variant="primary">Update Profile</Button>
+          <Row>
+            <Col xs={12} md={6} className="mb-2">
+              <Button type="submit" variant="primary" className="w-100">Update Profile</Button>
+            </Col>
+            <Col xs={12} md={6}>
+              <Button variant="danger" className="w-100" onClick={handleBlock}>Block User</Button>
+            </Col>
+          </Row>
         </Form>
       </Card>
     </Container>

@@ -116,7 +116,7 @@ const AdminDashboard = () => {
               <Card.Body>
                 <Card.Title>Add Product</Card.Title>
                 <Card.Text>Add new items to your store.</Card.Text>
-                <Button variant="success" href="/admin/add-product">
+                <Button variant="info" href="/admin/add-product">
                   Add
                 </Button>
               </Card.Body>
@@ -140,7 +140,7 @@ const AdminDashboard = () => {
               <Card.Body>
                 <Card.Title>Users</Card.Title>
                 <Card.Text>View all registered users.</Card.Text>
-                <Button variant="primary" href="/admin/users">
+                <Button variant="info" href="/admin/users">
                   Users
                 </Button>
               </Card.Body>
@@ -152,7 +152,7 @@ const AdminDashboard = () => {
               <Card.Body>
                 <Card.Title>View Orders</Card.Title>
                 <Card.Text>View all customer orders.</Card.Text>
-                <Button variant="primary" href="/admin/orders">
+                <Button variant="info" href="/admin/orders">
                   Orders
                 </Button>
               </Card.Body>
@@ -164,7 +164,7 @@ const AdminDashboard = () => {
               <Card.Body>
                 <Card.Title>Category</Card.Title>
                 <Card.Text>Manage all product categories.</Card.Text>
-                <Button variant="warning" href="/admin/categories">
+                <Button variant="info" href="/admin/categories">
                   Manage
                 </Button>
               </Card.Body>

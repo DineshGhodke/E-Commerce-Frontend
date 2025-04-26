@@ -1,6 +1,8 @@
+// src/ProductInfo.js
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { Card, Container, Button } from 'react-bootstrap';
+import { Container, Button, Row, Col, Card } from 'react-bootstrap';
+import './ProductInfo.css';
 
 function ProductInfo() {
   const { state } = useLocation();
@@ -16,42 +18,55 @@ function ProductInfo() {
   };
 
   const handleAddToCart = () => {
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    cartItems.push({ image, title, price });
+    localStorage.setItem("cart", JSON.stringify(cartItems));
     alert(`${title} added to cart!`);
   };
 
   return (
-    <Container className="mt-5 d-flex justify-content-center">
-      <Card className="shadow" style={{ width: '400px' }}>
-        <div
-          style={{
-            height: '300px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            overflow: 'hidden',
-            padding: '10px'
-          }}
-        >
-          <img
-            src={image}
-            alt={title}
-            style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }}
-          />
-        </div>
-        <Card.Body className="text-center">
-          <Card.Title>{title}</Card.Title>
-          <Card.Text>{desc}</Card.Text>
-          <Card.Text className="fw-bold text-success">₹ {price}</Card.Text>
-          {discount && <Card.Text className="text-danger fw-bold">{discount}% OFF</Card.Text>}
-          <Card.Text><strong>categories:</strong> {categories}</Card.Text>
-          <Button variant="primary" className="me-2" onClick={handleAddToCart}>
-            Add to Cart
-          </Button>
-          <Button variant="success" onClick={handleOrder}>
-            Place Order
-          </Button>
-        </Card.Body>
-      </Card>
+    <Container className="product-container">
+      <Row>
+        <Col md={5} className="text-center">
+          <Card className="product-image-card">
+            <img
+              src={image}
+              alt={title}
+              className="img-fluid product-img"
+            />
+          </Card>
+          <div className="button-group">
+            <Button variant="outline-primary" onClick={handleAddToCart}>
+              🛒 Add to Cart
+            </Button>
+            <Button variant="primary" onClick={handleOrder}>
+              » Buy Now
+            </Button>
+          </div>
+        </Col>
+
+        <Col md={7}>
+          <h4>{title}</h4>
+          <h5 className="text-success">₹ {price} &nbsp;
+            {discount && (
+              <>
+                <span className="strike-price">₹{parseInt(price * (1 + discount / 100))}</span>
+                <span className="discount"> &nbsp; {discount}% off</span>
+              </>
+            )}
+          </h5>
+          <p className="badge bg-light text-dark mt-2">Free Delivery</p>
+          <p><strong>Category:</strong> {categories}</p>
+          <h6 className="mt-4">Product Details</h6>
+          <ul>
+            <li><strong>Description:</strong> {desc}</li>
+            <li><strong>Type:</strong> Mobile</li>
+            <li><strong>Connectivity:</strong> 5G Supported</li>
+            <li><strong>Color:</strong> Gold</li>
+            <li><strong>Battery:</strong> 5000 mAh</li>
+          </ul>
+        </Col>
+      </Row>
     </Container>
   );
 }

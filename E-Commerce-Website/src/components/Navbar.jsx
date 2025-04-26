@@ -1,5 +1,7 @@
+// src/Navbar.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import './Navbar.css';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-primary shadow rounded fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-light shadow rounded fixed-top">
       <div className="container-fluid">
         <Link className="navbar-brand text-light" to="/">
           <i className="bi bi-shop"></i> E-Shop
@@ -39,23 +41,13 @@ function Navbar() {
                 <i className="bi bi-bag"></i> Products
               </Link>
             </li>
-            <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle text-light" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown">
-                <i className="bi bi-grid"></i> Category
-              </a>
-              <ul className="dropdown-menu">
-                <li><Link className="dropdown-item" to="/category/electronics">Electronics</Link></li>
-                <li><Link className="dropdown-item" to="/category/fashion">Fashion</Link></li>
-                
-              </ul>
-            </li>
           </ul>
 
           <form className="d-flex me-3" onSubmit={handleSearch}>
             <input className="form-control me-2" type="search" placeholder="Search"
               value={search} onChange={(e) => setSearch(e.target.value)} />
             <button className="btn btn-outline-light" type="submit">
-              <i className="bi bi-search"></i> 
+              <i className="bi bi-search"></i>
             </button>
           </form>
 

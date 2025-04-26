@@ -1,13 +1,33 @@
-/* src/components/Footer.css */
+footer {
+  background-color:  #4a6bff; /* Dark background */
+  color: #ffffff;
+  /* padding-top: 20px; */
+  /* padding-bottom: 20px; */
+  font-size: 14px;
+  box-shadow:  #4a6bff;;
+  height: 250px;
+}
 
-.footer {
-  background-color: #343a40;  /* Dark background */
-  color: #f8f9fa;             /* Light text */
-  text-align: center;
-  padding: 15px 0;
-  position: fixed;            /* Sticks to bottom */
-  bottom: 0;
-  left: 0;
-  width: 100%;                /* Full width */
-  z-index: 1000;              /* On top of other content */
+footer a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #0d6efd; /* Bootstrap primary color */
+}
+
+footer .fa-lg {
+  font-size: 1.5rem;
+}
+
+footer .mx-2 {
+  margin-left: 0.5rem !important;
+  margin-right: 0.5rem !important;
+}
+
+footer .mx-3 {
+  margin-left: 0.75rem !important;
+  margin-right: 0.75rem !important;
 }

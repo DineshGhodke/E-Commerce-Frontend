@@ -14,9 +14,9 @@ const UserDashboard = () => {
   };
 
   return (
-    <div className="d-flex">
+    <div className=" d-flex">
       <UserSidebar />
-      <Container className="mt-4">
+      <Container className="  mt-4">
         <h3 className="mb-4">Welcome, {user?.name || "User"} 🎉</h3>
         <Row>
           <Col md={6}>

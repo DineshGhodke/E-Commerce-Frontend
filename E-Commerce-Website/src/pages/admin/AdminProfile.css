@@ -1,4 +1,4 @@
-/* AdminProfile.css */
+AdminProfile.css
 
 .profile-card {
     max-width: 500px;
@@ -15,5 +15,25 @@
   .profile-icon {
     font-size: 3rem;
     color: #0d6efd;
+  }
+  
+  .dashboard-content {
+    flex-grow: 1;
+    padding: 20px;
+   
+    justify-content: center; /* center horizontally */
+    align-items: center;     /* center vertically (optional) */
+    min-height: 100vh;       /* full height to center vertically */
+    background-color: #f8f9fa;
+  }
+  
+  .admin-profile-card {
+    width: 100%;
+    max-width: 500px; /* set max width */
+    justify-content: center;
+    padding: 50px;
+    margin-left: 200px;
+    text-align: center;
+
   }
   

@@ -11,9 +11,21 @@ const ViewUsers = () => {
   const loadUsers = async () => {
     try {
       const response = await UserService.getAllUsers();
-      setUsers(response.data); // assuming response.data is an array of users
+      setUsers(response.data);
     } catch (error) {
       console.error("Failed to fetch users:", error);
+    }
+  };
+
+  // Delete user by ID
+  const handleDelete = async (userId) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        await UserService.deleteUser(userId); // ✅ Assumes a deleteUser method in UserService
+        loadUsers(); // Refresh the list
+      } catch (error) {
+        console.error("Failed to delete user:", error);
+      }
     }
   };
 
@@ -40,6 +52,7 @@ const ViewUsers = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -50,11 +63,22 @@ const ViewUsers = () => {
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.role}</td>
+                  <td>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => handleDelete(user.id)}
+                    >
+                      Delete
+                    </Button>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="text-center">No users found</td>
+                <td colSpan="5" className="text-center">
+                  No users found
+                </td>
               </tr>
             )}
           </tbody>

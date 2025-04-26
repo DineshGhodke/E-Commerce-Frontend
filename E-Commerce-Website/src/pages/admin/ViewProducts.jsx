@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./ViewProducts.css"; // Import your CSS file for styling
+
 
 const ViewProducts = () => {
   const [products, setProducts] = useState([]);
@@ -30,7 +32,6 @@ const ViewProducts = () => {
     const fetchCategories = async () => {
       try {
         const response = await fetch("http://localhost:8081/categories/view");
-        // alert(response);
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
         }
@@ -62,25 +63,21 @@ const ViewProducts = () => {
     }
   };
 
-  // Handle the update action
-  const handleUpdate = (productId) => {
-    window.location.href = `/update-product/${productId}`;
-  };
-
   // Handle the search action by product name
   const handleSearch = async () => {
     try {
-      const response = await fetch(`http://localhost:8081/product/view`);
-      console.log("image :: ", response.imageUrl);
+      const response = await fetch(`http://localhost:8081/product/search/${searchName}`);
 
+      
       if (!response.ok) {
         throw new Error("Failed to search products");
       }
       const data = await response.json();
-      if (data === "Product Name Not Found!") {
+      if (data.length === 0) {
         setError("No product found with the given name");
         setProducts([]);
       } else {
+        setError(null);
         setProducts(data);
       }
     } catch (error) {
@@ -94,7 +91,7 @@ const ViewProducts = () => {
         <h1>Product List</h1>
         <button
           onClick={() => window.history.back()}
-          className="btn btn-secondary back-button"
+          className="btn btn-secondary back-button "
         >
           Back
         </button>
@@ -108,6 +105,7 @@ const ViewProducts = () => {
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
           placeholder="Search by product name"
+          className="form-control"
         />
         <button onClick={handleSearch} className="btn btn-info">
           Search
@@ -154,15 +152,15 @@ const ViewProducts = () => {
                 </td>
                 <td>
                   <div className="action-buttons">
-                    <button
-                      onClick={() => handleUpdate(product.id)}
-                      className="btn btn-warning"
+                    <Link
+                      to={`/update-product/${product.id}`}
+                      className="E-Button btn btn-primary "
                     >
                       Edit
-                    </button>
+                    </Link>
                     <button
                       onClick={() => handleDelete(product.id)}
-                      className="btn btn-danger"
+                      className="D-Button btn btn-danger"
                     >
                       Delete
                     </button>

@@ -42,32 +42,29 @@ function Login() {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     setErrors({ ...errors, [name]: '' });
-    setInvalidCredentials(false); // clear error when user starts typing
+    setInvalidCredentials(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
-  
+
     try {
       const response = await LoginService.loginUser(loginData);
-  
+
       if (response.status === 200) {
         alert("Login successful!");
-        console.log(response.data.role);
-  
-        // 🔥 Store login info in localStorage
+
         const userData = {
           name: response.data.name,
           email: response.data.email,
           role: response.data.role,
           joined: response.data.joined || "April 2023"
         };
-  
-        localStorage.setItem("admin", JSON.stringify(userData)); // or "user" based on role
+
+        localStorage.setItem("admin", JSON.stringify(userData));
         localStorage.setItem("isLoggedIn", true);
-  
-        // 🔁 Navigate based on role
+
         if (response.data.role === 'ADMIN') {
           navigate('/admin/AdminDashboard');
         } else {
@@ -80,14 +77,12 @@ function Login() {
       setInvalidCredentials(true);
     }
   };
-  
 
   return (
     <div className="login-container d-flex justify-content-center align-items-center">
-      <div className="card p-4 shadow login-card">
+      <div className="card p-4 shadow login-card" style={{ maxWidth: '400px', width: '100%' }}>
         <h3 className="mb-4 text-primary text-center">Login</h3>
-        
-        {/* Show invalid login message */}
+
         {invalidCredentials && (
           <div className="alert alert-danger text-center" role="alert">
             Invalid email or password
@@ -97,44 +92,55 @@ function Login() {
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label>Email</label>
-            <input
-              type="email"
-              className={`form-control ${errors.email || invalidCredentials ? 'is-invalid' : ''}`}
-              name="email"
-              onChange={handleChange}
-              required
-            />
+            <div className="input-group">
+              <span className="input-group-text"><i className="bi bi-envelope-fill"></i></span>
+              <input
+                type="email"
+                className={`form-control ${errors.email || invalidCredentials ? 'is-invalid' : ''}`}
+                name="email"
+                onChange={handleChange}
+                required
+              />
+            </div>
             {errors.email && <div className="invalid-feedback">{errors.email}</div>}
           </div>
 
           <div className="mb-3">
             <label>Password</label>
-            <input
-              type="password"
-              className={`form-control ${errors.password || invalidCredentials ? 'is-invalid' : ''}`}
-              name="password"
-              onChange={handleChange}
-              required
-            />
+            <div className="input-group">
+              <span className="input-group-text"><i className="bi bi-lock-fill"></i></span>
+              <input
+                type="password"
+                className={`form-control ${errors.password || invalidCredentials ? 'is-invalid' : ''}`}
+                name="password"
+                onChange={handleChange}
+                required
+              />
+            </div>
             {errors.password && <div className="invalid-feedback">{errors.password}</div>}
           </div>
 
           <div className="mb-3">
             <label>Role</label>
-            <select
-              className={`form-control ${errors.role ? 'is-invalid' : ''}`}
-              name="role"
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select role</option>
-              <option value="USER">User</option>
-              <option value="ADMIN">Admin</option>
-            </select>
+            <div className="input-group">
+              <span className="input-group-text"><i className="bi bi-person-badge-fill"></i></span>
+              <select
+                className={`form-control ${errors.role ? 'is-invalid' : ''}`}
+                name="role"
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select role</option>
+                <option value="USER">User</option>
+                <option value="ADMIN">Admin</option>
+              </select>
+            </div>
             {errors.role && <div className="invalid-feedback">{errors.role}</div>}
           </div>
 
-          <button type="submit" className="btn btn-primary w-100">Login</button>
+          <button type="submit" className="btn btn-primary w-100">
+            <i className="bi bi-box-arrow-in-right me-2"></i>Login
+          </button>
         </form>
       </div>
     </div>
