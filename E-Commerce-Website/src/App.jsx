@@ -5,12 +5,13 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
-import Category from './pages/Category';
 import SearchResults from './pages/SearchResults';
 import ProductInfo from './productInfo/ProductInfo';
 import ProductList from './pages/ProductList';
 import AddCategory from './pages/admin/AddCategory';
-import Cart from './components/Cart'; 
+import Cart from './components/Cart';
+import Categories from './components/Category/Categories';
+import CategoryPage from './pages/category/categorypage';
 
 /* Admin Imports */
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -38,31 +39,33 @@ function AppContent() {
 
       <div className="container" style={{ marginTop: '80px' }}>
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/category/:categoryName" element={<Category />} />
           <Route path="/search-results" element={<SearchResults />} />
           <Route path="/category/:category" element={<ProductList />} />
           <Route path="/search" element={<ProductList />} />
           <Route path="/productInfo" element={<ProductInfo />} />
           <Route path="/products" element={<ProductList />} />
-          <Route path="/admin/add-category" element={<AddCategory />} />
           <Route path="/cart" element={<Cart />} />
-          
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/category/:categoryId" element={<CategoryPage />} />
+
 
           {/* Admin Routes */}
           <Route path="/admin/AdminDashboard" element={<AdminDashboard />} />
+          <Route path="/admin/add-category" element={<AddCategory />} />
           <Route path="/admin/add-product" element={<AddProduct />} />
           <Route path="/admin/products" element={<ViewProducts />} />
           <Route path="/admin/users" element={<ViewUsers />} />
           <Route path="/admin/ViewOrders" element={<ViewOrders />} />
           <Route path="/admin/ViewCategories" element={<ViewCategories />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
-          <Route path="/admin/update-product/:id" element={<UpdateProduct />} />
+          <Route path="/update-product/:id" element={<UpdateProduct />} />
 
           {/* User Routes */}
-          <Route path="/user/UserDashborad" element={<UserDashboard />} />
+          <Route path="/user/UserDashboard" element={<UserDashboard />} />
         </Routes>
       </div>
 

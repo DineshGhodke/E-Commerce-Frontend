@@ -27,7 +27,7 @@ function Login() {
     if (!loginData.password) {
       newErrors.password = 'Password is required';
     } else if (loginData.password.length < 5) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = 'Password must be at least 5 characters';
     }
 
     if (!loginData.role) {

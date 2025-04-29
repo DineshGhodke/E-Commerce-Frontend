@@ -113,63 +113,62 @@ const ViewProducts = () => {
       </div>
 
       {products.length > 0 ? (
-        <table className="product-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Price</th>
-              <th>Image</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <tr key={product.id}>
-                <td>{product.id}</td>
-                <td>{product.name}</td>
-                {/* Show category name based on categoryId */}
-                <td>
-                  {categories.find((c) => c.id === product.categoryId)?.name ||
-                    "Unknown"}
-                </td>
-                <td>₹{product.price}</td>
-                <td>
-                  <img
-                    src={
-                      product.imageUrl
-                        ? `http://localhost:8081/imgs/${product.imageUrl}`
-                        : "https://via.placeholder.com/300"
-                    }
-                    alt={product.name}
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                    }}
-                  />
-                </td>
-                <td>
-                  <div className="action-buttons">
-                    <Link
-                      to={`/update-product/${product.id}`}
-                      className="E-Button btn btn-primary "
-                    >
-                      Edit
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(product.id)}
-                      className="D-Button btn btn-danger"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+       <table className="product-table">
+       <thead>
+         <tr>
+           <th>ID</th>
+           <th>Name</th>
+           <th>Category</th>
+           <th>Price</th>
+           <th>Image</th>
+           <th>Action</th>
+         </tr>
+       </thead>
+       <tbody>
+         {products.map((product) => (
+           <tr key={product.id}>
+             <td>{product.id}</td>
+             <td>{product.name}</td>
+             <td>
+               {categories.find((c) => c.id === product.categoryId)?.name || "Unknown"}
+             </td>
+             <td>₹{product.price}</td>
+             <td>
+               <img
+                 src={
+                   product.imageUrl
+                     ? `http://localhost:8081/imgs/${product.imageUrl}`
+                     : "https://via.placeholder.com/300"
+                 }
+                 alt={product.name}
+                 style={{
+                   width: "100px",
+                   height: "100px",
+                   objectFit: "cover",
+                 }}
+               />
+             </td>
+             <td>
+               <div className="action-buttons">
+                 <Link
+                   to={`/update-product/${product.id}`}
+                   className="E-Button btn btn-primary"
+                 >
+                   Edit
+                 </Link>
+                 <button
+                   onClick={() => handleDelete(product.id)}
+                   className="D-Button btn btn-danger"
+                 >
+                   Delete
+                 </button>
+               </div>
+             </td>
+           </tr>
+         ))}
+       </tbody>
+     </table>
+     
       ) : (
         <div className="empty-state">
           <p>No products available</p>

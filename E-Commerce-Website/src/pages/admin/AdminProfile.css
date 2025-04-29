@@ -1,39 +1,60 @@
-AdminProfile.css
+/* AdminProfile.css */
 
-.profile-card {
-    max-width: 500px;
-    margin: 0 auto;
-    border-left: 6px solid #0d6efd;
-    background-color: #f8f9fa;
-    transition: 0.3s ease;
-  }
-  
-  .profile-card:hover {
-    box-shadow: 0 0 10px rgba(13, 110, 253, 0.4);
-  }
-  
-  .profile-icon {
-    font-size: 3rem;
-    color: #0d6efd;
-  }
-  
-  .dashboard-content {
-    flex-grow: 1;
-    padding: 20px;
-   
-    justify-content: center; /* center horizontally */
-    align-items: center;     /* center vertically (optional) */
-    min-height: 100vh;       /* full height to center vertically */
-    background-color: #f8f9fa;
-  }
-  
-  .admin-profile-card {
-    width: 100%;
-    max-width: 500px; /* set max width */
-    justify-content: center;
-    padding: 50px;
-    margin-left: 200px;
-    text-align: center;
+.admin-profile-card {
+  max-width: 600px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
 
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.edit-profile-btn {
+  align-self: center;
+}
+
+.profile-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.admin-profile-card strong {
+  color: #333;
+  margin-right: 5px;
+}
+
+.admin-profile-card .card-title,
+.admin-profile-card .card-subtitle {
+  margin-bottom: 15px;
+}
+
+/* Modal styling */
+.modal-content {
+  border-radius: 10px;
+}
+
+.modal-header {
+  border-bottom: 1px solid #eee;
+}
+
+.modal-footer {
+  border-top: 1px solid #eee;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-header {
+    flex-direction: column;
   }
   
+  .edit-profile-btn {
+    margin-top: 15px;
+    align-self: flex-start;
+  }
+}

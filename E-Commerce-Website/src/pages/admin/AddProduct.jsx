@@ -78,7 +78,7 @@ function AddProduct() {
       <h3>Add Product</h3>
 
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h3>Add New Product</h3>
+       
         <button
           className="btn btn-secondary"
           onClick={() => navigate('/admin/AdminDashboard')}

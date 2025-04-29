@@ -4,13 +4,15 @@ import './Home.css'; // Import the custom CSS
 import banner1 from '../assets/banner1.jpg';
 import banner2 from '../assets/banner2.jpg';
 import banner3 from '../assets/banner3.webp';
-import ProductList from './ProductList';  
+import ProductList from './ProductList';
+import Categories from '../components/Category/Categories';  
 
 
 
 const Home = () => {
   return (
     <div>
+       <Categories />
       <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
         <div className="carousel-indicators">
           <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
@@ -41,6 +43,7 @@ const Home = () => {
       </div>
 
       {/* Featured Products Section */}
+     
       <ProductList />
     
     </div>
