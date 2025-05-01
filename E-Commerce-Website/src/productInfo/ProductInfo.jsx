@@ -19,7 +19,7 @@ function ProductInfo() {
 
   const handleAddToCart = () => {
     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-    cartItems.push({ image, title, price });
+    cartItems.push({ image, title, price,quantity: 1 });
     localStorage.setItem("cart", JSON.stringify(cartItems));
     alert(`${title} added to cart!`);
   };

@@ -9,9 +9,11 @@ import SearchResults from './pages/SearchResults';
 import ProductInfo from './productInfo/ProductInfo';
 import ProductList from './pages/ProductList';
 import AddCategory from './pages/admin/AddCategory';
-import Cart from './components/Cart';
+// import Cart from './components/Cart';
 import Categories from './components/Category/Categories';
 import CategoryPage from './pages/category/categorypage';
+import CheckoutPage from './pages/CheckoutPage';
+import CartPage from './pages/CartPage';
 
 /* Admin Imports */
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -26,6 +28,8 @@ import UpdateProduct from './pages/admin/UpdateProduct';
 /* User Imports */
 import UserDashboard from './pages/user/UserDashboard';
 import { CartProvider } from './context/CartContext';
+
+
 
 function AppContent() {
   const location = useLocation();
@@ -48,9 +52,12 @@ function AppContent() {
           <Route path="/search" element={<ProductList />} />
           <Route path="/productInfo" element={<ProductInfo />} />
           <Route path="/products" element={<ProductList />} />
-          <Route path="/cart" element={<Cart />} />
+          {/* <Route path="/cart" element={<Cart />} /> */}
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/:categoryId" element={<CategoryPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/cart" element={<CartPage />} />
+
 
 
           {/* Admin Routes */}
@@ -66,6 +73,8 @@ function AppContent() {
 
           {/* User Routes */}
           <Route path="/user/UserDashboard" element={<UserDashboard />} />
+          
+
         </Routes>
       </div>
 

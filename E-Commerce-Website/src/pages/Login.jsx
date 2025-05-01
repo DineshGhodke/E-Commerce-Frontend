@@ -59,9 +59,12 @@ function Login() {
           name: response.data.name,
           email: response.data.email,
           role: response.data.role,
-          joined: response.data.joined || "April 2023"
+          joined: response.data.joined || "April 2023",
+          userId: response.data.userId,  // Store userId
         };
 
+        // Store the userId in localStorage
+        localStorage.setItem("userId", response.data.userId);
         localStorage.setItem("admin", JSON.stringify(userData));
         localStorage.setItem("isLoggedIn", true);
 

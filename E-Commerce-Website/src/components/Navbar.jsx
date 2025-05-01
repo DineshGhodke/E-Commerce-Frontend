@@ -1,4 +1,3 @@
-// src/Navbar.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
@@ -17,6 +16,14 @@ function Navbar() {
     e.preventDefault();
     navigate(`/search?query=${search}`);
     setSearch('');
+  };
+
+  const handleCartClick = () => {
+    if (isLoggedIn) {
+      navigate("/cart");
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
@@ -52,11 +59,13 @@ function Navbar() {
           </form>
 
           <ul className="navbar-nav mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link text-light" to="/cart">
-                <i className="bi bi-cart3"></i> Cart
-              </Link>
-            </li>
+          <li className="nav-item">
+  <Link className="nav-link text-light" to="/cart">
+    <i className="bi bi-cart3"></i> Cart
+  </Link>
+</li>
+
+
             {isLoggedIn ? (
               <>
                 <li className="nav-item">
