@@ -1,0 +1,11 @@
+.userpanel {
+  width: 200px;
+padding-top:80px;
+/* text-align: center; */
+padding-left: 20px;
+}
+
+.sidebar-content {
+  align-items: center;
+  padding: 10px;
+}

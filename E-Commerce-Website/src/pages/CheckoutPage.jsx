@@ -7,14 +7,14 @@ const CheckoutPage = () => {
   const [orderStatus, setOrderStatus] = useState('');
   const userId = localStorage.getItem('userId');
 
-  // 👉 totalAmount calculate करण्यासाठी state
+  
   const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
     const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     setCartItems(storedCartItems);
+    console.log('Stored Cart Items:', storedCartItems);
 
-    // 👉 totalAmount काढणे
     const total = storedCartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
     setTotalAmount(total);
   }, []);
@@ -32,7 +32,7 @@ const CheckoutPage = () => {
         quantity: item.quantity,
         price: item.price
       })),
-      totalAmount: totalAmount, // 👉 totalAmount frontend मधून पाठवला!
+      totalAmount: totalAmount, 
       shippingAddress: shippingAddress,
       paymentMethod: 'Credit Card',
     };
@@ -40,6 +40,7 @@ const CheckoutPage = () => {
     try {
       const response = await axios.post('http://localhost:8081/order/placeOrder', order);
       setOrderStatus(response.data);
+      console.log('Order Response:', response.data);
       localStorage.removeItem('cartItems');
     } catch (error) {
       console.error('Error placing order:', error);

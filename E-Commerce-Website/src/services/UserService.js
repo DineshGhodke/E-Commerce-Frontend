@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:8081"; // Remove /user from here
+const BASE_URL = "http://localhost:8081/user"; // Remove /user from here
 
 class AdminService {
   // Register user
@@ -10,7 +10,7 @@ class AdminService {
 
   // Get all users
   getAllUsers() {
-    return axios.get(BASE_URL + "/users/view"); // ✅ Correct endpoint
+    return axios.get(BASE_URL + "/view"); // ✅ Correct endpoint
   }
 
   // Delete user

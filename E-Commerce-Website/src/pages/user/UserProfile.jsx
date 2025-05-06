@@ -9,8 +9,11 @@ function Profile() {
   });
 
   useEffect(() => {
-    fetch('/api/user/profile')
-      .then(res => res.json())
+    fetch('http://localhost:8080/api/user/profile')  // Use backend URL
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+        return res.json();
+      })
       .then(data => setProfile(data))
       .catch(err => console.error('Error fetching profile:', err));
   }, []);
@@ -25,12 +28,15 @@ function Profile() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch('/api/user/profile', {
+    fetch('http://localhost:8080/api/user/profile', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(profile)
     })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+        return res.json();
+      })
       .then(data => alert('Profile updated successfully!'))
       .catch(err => console.error('Error updating profile:', err));
   };
@@ -47,25 +53,46 @@ function Profile() {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
-            <Form.Control type="text" name="name" value={profile.name} onChange={handleChange} required />
+            <Form.Control
+              type="text"
+              name="name"
+              value={profile.name}
+              onChange={handleChange}
+              required
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" name="email" value={profile.email} onChange={handleChange} required />
+            <Form.Control
+              type="email"
+              name="email"
+              value={profile.email}
+              onChange={handleChange}
+              required
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Phone</Form.Label>
-            <Form.Control type="text" name="phone" value={profile.phone} onChange={handleChange} />
+            <Form.Control
+              type="text"
+              name="phone"
+              value={profile.phone}
+              onChange={handleChange}
+            />
           </Form.Group>
 
           <Row>
             <Col xs={12} md={6} className="mb-2">
-              <Button type="submit" variant="primary" className="w-100">Update Profile</Button>
+              <Button type="submit" variant="primary" className="w-100">
+                Update Profile
+              </Button>
             </Col>
             <Col xs={12} md={6}>
-              <Button variant="danger" className="w-100" onClick={handleBlock}>Block User</Button>
+              <Button variant="danger" className="w-100" onClick={handleBlock}>
+                Block User
+              </Button>
             </Col>
           </Row>
         </Form>

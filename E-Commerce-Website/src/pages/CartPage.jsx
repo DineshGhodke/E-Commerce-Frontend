@@ -7,7 +7,7 @@ function CartPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem('cartItems')) || []; // 🔥 key name fixed
+    const items = JSON.parse(localStorage.getItem('cartItems')) || [];
     setCartItems(items);
   }, []);
 
@@ -15,13 +15,13 @@ function CartPage() {
     const updatedItems = [...cartItems];
     updatedItems[index].quantity = quantity;
     setCartItems(updatedItems);
-    localStorage.setItem("cartItems", JSON.stringify(updatedItems)); // 🔥 key name fixed
+    localStorage.setItem("cartItems", JSON.stringify(updatedItems));
   };
 
   const removeFromCart = (index) => {
     const updatedItems = cartItems.filter((_, i) => i !== index);
     setCartItems(updatedItems);
-    localStorage.setItem("cartItems", JSON.stringify(updatedItems)); // 🔥 key name fixed
+    localStorage.setItem("cartItems", JSON.stringify(updatedItems));
   };
 
   const getTotal = () => {
@@ -50,31 +50,13 @@ function CartPage() {
           <Row>
             {cartItems.map((item, index) => (
               <Col md={3} key={index} className="mb-3">
-                <Card
-                  className="h-100 shadow-sm border-0"
-                  style={{
-                    cursor: "pointer",
-                    borderRadius: "0.5rem",
-                    overflow: "hidden"
-                  }}
-                >
-                  <div
-                    style={{
-                      height: "160px",
-                      width: "100%",
-                      overflow: "hidden",
-                    }}
-                  >
+                <Card className="h-100 shadow-sm border-0">
+                  <div style={{ height: "160px", width: "100%", overflow: "hidden" }}>
                     <Card.Img
                       variant="top"
                       src={item.image}
                       alt={item.title}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "contain",
-                        display: "block",
-                      }}
+                      style={{ width: "100%", height: "100%", objectFit: "contain" }}
                     />
                   </div>
                   <Card.Body>
@@ -87,17 +69,11 @@ function CartPage() {
                         type="number"
                         min="1"
                         value={item.quantity || 1}
-                        onChange={(e) =>
-                          updateQuantity(index, parseInt(e.target.value))
-                        }
+                        onChange={(e) => updateQuantity(index, parseInt(e.target.value))}
                       />
                     </Form.Group>
 
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => removeFromCart(index)}
-                    >
+                    <Button variant="danger" size="sm" onClick={() => removeFromCart(index)}>
                       Remove
                     </Button>
                   </Card.Body>
@@ -107,9 +83,7 @@ function CartPage() {
           </Row>
 
           <h4 className="mt-3">Total: ₹{getTotal()}</h4>
-          <Button variant="success" onClick={handleCheckout}>
-            Proceed to Checkout
-          </Button>
+          <Button variant="success" onClick={handleCheckout}>Proceed to Checkout</Button>
         </>
       )}
     </Container>

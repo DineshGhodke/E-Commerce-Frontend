@@ -14,11 +14,14 @@ const UserDashboard = () => {
   };
 
   return (
-    <div className=" d-flex">
+    <div>
       <UserSidebar />
-      <Container className="  mt-4">
+      <Container 
+        className="mt-4"
+        style={{ marginLeft: 'px' }} // 👉 move content right of sidebar
+      >
         <h3 className="mb-4">Welcome, {user?.name || "User"} 🎉</h3>
-        <Row>
+        <Row className="justify-content-center">
           <Col md={6}>
             <Card>
               <Card.Body>
@@ -36,6 +39,7 @@ const UserDashboard = () => {
       </Container>
     </div>
   );
+  
 };
 
 export default UserDashboard;

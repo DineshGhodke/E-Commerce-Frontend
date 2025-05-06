@@ -1,4 +1,3 @@
-// src/ProductInfo.js
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container, Button, Row, Col, Card } from 'react-bootstrap';
@@ -11,16 +10,23 @@ function ProductInfo() {
     return <h4 className="text-center mt-5">No product selected!</h4>;
   }
 
-  const { image, title, desc, price, categories, discount } = state;
+  const { image, title, desc, price, categories, discount, productId } = state;
 
   const handleOrder = () => {
     alert(`Order placed for: ${title}`);
   };
 
   const handleAddToCart = () => {
-    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-    cartItems.push({ image, title, price,quantity: 1 });
-    localStorage.setItem("cart", JSON.stringify(cartItems));
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const existingItem = cartItems.find(item => item.productId === productId);
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cartItems.push({ productId, image, title, price, quantity: 1 });
+    }
+
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
     alert(`${title} added to cart!`);
   };
 
@@ -29,11 +35,7 @@ function ProductInfo() {
       <Row>
         <Col md={5} className="text-center">
           <Card className="product-image-card">
-            <img
-              src={image}
-              alt={title}
-              className="img-fluid product-img"
-            />
+            <img src={image} alt={title} className="img-fluid product-img" />
           </Card>
           <div className="button-group">
             <Button variant="outline-primary" onClick={handleAddToCart}>
@@ -47,10 +49,13 @@ function ProductInfo() {
 
         <Col md={7}>
           <h4>{title}</h4>
-          <h5 className="text-success">₹ {price} &nbsp;
+          <h5 className="text-success">
+            ₹ {price} &nbsp;
             {discount && (
               <>
-                <span className="strike-price">₹{parseInt(price * (1 + discount / 100))}</span>
+                <span className="strike-price">
+                  ₹{parseInt(price * (1 + discount / 100))}
+                </span>
                 <span className="discount"> &nbsp; {discount}% off</span>
               </>
             )}
