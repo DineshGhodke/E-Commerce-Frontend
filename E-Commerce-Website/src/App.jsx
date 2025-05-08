@@ -12,8 +12,8 @@ import AddCategory from './pages/admin/AddCategory';
 // import Cart from './components/Cart';
 import Categories from './components/Category/Categories';
 import CategoryPage from './pages/category/categorypage';
-import CheckoutPage from './pages/CheckoutPage';
-import CartPage from './pages/CartPage';
+import CartPage from "./components/CartPage";
+
 
 /* Admin Imports */
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -56,7 +56,6 @@ function AppContent() {
           {/* <Route path="/cart" element={<Cart />} /> */}
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/:categoryId" element={<CategoryPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/cart" element={<CartPage />} />
 
 

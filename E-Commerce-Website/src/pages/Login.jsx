@@ -51,24 +51,35 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
-
+  
     try {
       const response = await LoginService.loginUser(loginData);
-
-      if (response.status === 200) {
+      console.log("Full API Response:", response);  // Debugging
+  
+      if (response.status === 200 && response.data) {
         alert("Login successful!");
-
+  
+        // Ensure all required fields exist with fallbacks
         const userData = {
-          name: response.data.name,
-          email: response.data.email,
-          role: response.data.role,
-          joined: response.data.joined || "April 2023",
-          userId: response.data.userId,
+          userId: response.data.userId || response.data.id || '', // Multiple fallbacks
+          name: response.data.name || '',
+          email: response.data.email || '',
+          role: response.data.role || 'USER',
+          joined: response.data.joined || "April 2023"
         };
-
-        localStorage.setItem("id", response.data.userId);
-        localStorage.setItem("isLoggedIn", true);
-
+  
+        // Safely set localStorage
+        if (userData.userId) {
+          localStorage.setItem("id", userData.userId.toString());
+        } else {
+          console.error("No userId received from backend");
+          throw new Error("User ID missing in response");
+        }
+  
+       
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("role", response.data.role); // "ADMIN" ya "USER"
+        
         if (response.data.role === 'ADMIN') {
           localStorage.setItem("admin", JSON.stringify(userData));
           navigate('/admin/AdminDashboard');
@@ -81,9 +92,10 @@ function Login() {
       }
     } catch (error) {
       setInvalidCredentials(true);
+      console.error("Login failed:", error);
+      alert("Login failed. Please check console for details.");
     }
   };
-
   const handleForgotPassword = async () => {
     if (!forgotEmail) {
       alert('Please enter your email address');

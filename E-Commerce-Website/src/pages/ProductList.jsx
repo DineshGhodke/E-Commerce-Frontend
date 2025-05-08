@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useCart } from "../context/CartContext";
 
 function ProductList() {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
-  const { addToCart } = useCart();
+
   const navigate = useNavigate();
   const location = useLocation();
 

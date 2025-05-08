@@ -17,16 +17,24 @@ function ProductInfo() {
   };
 
   const handleAddToCart = () => {
+    // Retrieve the current cart from localStorage, or create an empty array if it doesn't exist
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+    // Check if the product is already in the cart
     const existingItem = cartItems.find(item => item.productId === productId);
 
     if (existingItem) {
+      // If product already exists in the cart, increase the quantity
       existingItem.quantity += 1;
     } else {
+      // If the product is not in the cart, add it as a new item
       cartItems.push({ productId, image, title, price, quantity: 1 });
     }
 
+    // Save the updated cart back to localStorage
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
+
+    // Alert the user that the product was added to the cart
     alert(`${title} added to cart!`);
   };
 

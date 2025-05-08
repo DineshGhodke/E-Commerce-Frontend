@@ -21,7 +21,7 @@ const UserSidebar = () => {
       <h4 className="userpanel mb-4">User Panel</h4>
      
       <Nav defaultActiveKey="/user/dashboard" className="flex-column">
-        <Nav.Link as={Link} to="/user/dashboard">
+        <Nav.Link as={Link} to="/user/UserDashboard">
           <FaTachometerAlt className="me-2" /> Dashboard
         </Nav.Link>
         <Nav.Link as={Link} to="/user/cart">
@@ -30,7 +30,7 @@ const UserSidebar = () => {
         <Nav.Link as={Link} to="/user/orders">
           <FaBoxOpen className="me-2" /> My Orders
         </Nav.Link>
-        <Nav.Link as={Link} to="/user/UserProfile">
+        <Nav.Link as={Link} to="/user/UserDashboard">
           <FaUser className="me-2" /> Profile
         </Nav.Link>
         <Nav.Link as={Link} to="/login">
