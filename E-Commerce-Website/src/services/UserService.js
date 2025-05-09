@@ -17,6 +17,11 @@ class AdminService {
   deleteUser(id) {
     return axios.delete(BASE_URL + `/delete/${id}`);
   }
+
+  updateUserStatus(userId, isBlocked) {
+    return axios.put(`/users/updateStatus/${userId}`, { isBlocked });
+  }
+  
 }
 
 export default new AdminService();

@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from 'react';
+import Sidebar from './Sidebar';
+import './AdminDashboard.css'; // ✅ Make sure this CSS has styles for .dashboard-content
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8081/order/view") // backend API
+    fetch("http://localhost:8081/order/view")
       .then(res => res.json())
       .then(data => setOrders(data))
       .catch(err => console.error("Error fetching orders:", err));
   }, []);
 
   const handleStatusUpdate = (orderId) => {
-    // Status update logic placeholder
     alert(`Update status for Order ID: ${orderId}`);
   };
 
   return (
-    <div className="container mt-4">
-      <div className="card p-4 shadow">
-        <h3 className="mb-4">Manage Orders</h3>
+    <div className="d-flex">
+      <Sidebar />
+
+      <div className="dashboard-content">
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h3>Manage Orders</h3>
+        </div>
+
         <table className="table table-bordered table-hover">
           <thead className="table-light">
             <tr>
@@ -55,7 +61,9 @@ function AdminOrders() {
                 </td>
               </tr>
             )) : (
-              <tr><td colSpan="6" className="text-center">No orders found</td></tr>
+              <tr>
+                <td colSpan="6" className="text-center">No orders found</td>
+              </tr>
             )}
           </tbody>
         </table>

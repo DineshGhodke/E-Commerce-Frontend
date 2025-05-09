@@ -24,12 +24,17 @@ const UserSidebar = () => {
         <Nav.Link as={Link} to="/user/UserDashboard">
           <FaTachometerAlt className="me-2" /> Dashboard
         </Nav.Link>
-        <Nav.Link as={Link} to="/user/cart">
+        <Nav.Link as={Link} to="/cart">
           <FaShoppingCart className="me-2" /> My Cart
         </Nav.Link>
-        <Nav.Link as={Link} to="/user/orders">
+        <Nav.Link as={Link} to="/user/MyOrders">
           <FaBoxOpen className="me-2" /> My Orders
         </Nav.Link>
+
+        <Nav.Link as={Link} to="/user/">
+          <FaBoxOpen className="me-2" />Place Orders
+        </Nav.Link>
+
         <Nav.Link as={Link} to="/user/UserDashboard">
           <FaUser className="me-2" /> Profile
         </Nav.Link>

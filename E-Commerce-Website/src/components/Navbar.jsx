@@ -133,7 +133,7 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="mainNavbar">
+        <div className="collapse navbar-collapse bg-primary" id="mainNavbar">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link className="nav-link text-light" to="/">
@@ -167,11 +167,11 @@ function Navbar() {
                 <li className="nav-item">
                   {role === "ADMIN" ? (
                     <Link className="nav-link text-light" to="/admin/AdminDashboard">
-                      <i className="bi bi-person-circle"></i> Admin Dashboard
+                      <i className="bi bi-person-circle"></i> Profile
                     </Link>
                   ) : (
                     <Link className="nav-link text-light" to="/user/UserDashboard">
-                      <i className="bi bi-person-circle"></i> User Dashboard
+                      <i className="bi bi-person-circle"></i> Profile
                     </Link>
                   )}
                 </li>

@@ -29,7 +29,7 @@ import UpdateProduct from './pages/admin/UpdateProduct';
 import UserDashboard from './pages/user/UserDashboard';
 import { CartProvider } from './context/CartContext';
 import UserProfile from './pages/user/UserProfile';
-
+import MyOrders from './pages/user/MyOrders';
 
 
 function AppContent() {
@@ -74,7 +74,7 @@ function AppContent() {
           {/* User Routes */}
           <Route path="/user/UserDashboard" element={<UserDashboard />} />
           <Route path="/user/UserProfile" element={<UserProfile />} />
-          
+          <Route path="/user/MyOrders" element={<MyOrders />} />
 
         </Routes>
       </div>

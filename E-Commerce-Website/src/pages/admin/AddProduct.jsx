@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Sidebar from './Sidebar'; // ✅ Add this import
 import './AddProduct.css';
 
 function AddProduct() {
@@ -15,7 +16,6 @@ function AddProduct() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch categories on component mount
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -34,7 +34,6 @@ function AddProduct() {
     fetchCategories();
   }, []);
 
-  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -54,7 +53,7 @@ function AddProduct() {
 
       if (response.ok) {
         alert('Product added successfully!');
-        navigate('/admin/products'); // Redirect to the product list page
+        navigate('/admin/products');
       } else {
         throw new Error('Error adding product');
       }
@@ -64,7 +63,6 @@ function AddProduct() {
     }
   };
 
-  // Handle input changes
   const handleChange = (event) => {
     const { name, value, files } = event.target;
     setProduct({
@@ -74,103 +72,106 @@ function AddProduct() {
   };
 
   return (
-    <div className="container mt-4">
-      <h3>Add Product</h3>
+    <div className="d-flex">
+      <Sidebar /> {/* ✅ Add Sidebar here */}
 
-      <div className="d-flex justify-content-between align-items-center mb-3">
-       
-        <button
-          className="btn btn-secondary"
-          onClick={() => navigate('/admin/AdminDashboard')}
-        >
-          ← Back to Dashboard
-        </button>
-      </div>
+      <div className="dashboard-content container mt-4">
+        <h3>Add Product</h3>
 
-      {error && <div className="alert alert-danger">{error}</div>}
-
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Product Name</label>
-          <input
-            type="text"
-            className="form-control"
-            name="name"
-            value={product.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Description</label>
-          <input
-            type="text"
-            className="form-control"
-            name="description"
-            value={product.description}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Price</label>
-          <input
-            type="number"
-            className="form-control"
-            name="price"
-            value={product.price}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Stock</label>
-          <input
-            type="number"
-            className="form-control"
-            name="stock"
-            value={product.stock}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Category</label>
-          <select
-            className="form-control"
-            name="categoryId"
-            value={product.categoryId}
-            onChange={handleChange}
-            required
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <button
+            className="btn btn-secondary"
+            onClick={() => navigate('/admin/AdminDashboard')}
           >
-            <option value="">Select Category</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
+            ← Back to Dashboard
+          </button>
         </div>
 
-        <div className="form-group">
-          <label>Product Image</label>
-          <input
-            type="file"
-            className="form-control"
-            name="imageUrl"
-            onChange={handleChange}
-            required
-          />
-        </div>
+        {error && <div className="alert alert-danger">{error}</div>}
 
-        <button type="submit" className="btn btn-primary mt-3">
-          Add Product
-        </button>
-      </form>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Product Name</label>
+            <input
+              type="text"
+              className="form-control"
+              name="name"
+              value={product.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Description</label>
+            <input
+              type="text"
+              className="form-control"
+              name="description"
+              value={product.description}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Price</label>
+            <input
+              type="number"
+              className="form-control"
+              name="price"
+              value={product.price}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Stock</label>
+            <input
+              type="number"
+              className="form-control"
+              name="stock"
+              value={product.stock}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Category</label>
+            <select
+              className="form-control"
+              name="categoryId"
+              value={product.categoryId}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Category</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>Product Image</label>
+            <input
+              type="file"
+              className="form-control"
+              name="imageUrl"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <button type="submit" className="btn btn-primary mt-3">
+            Add Product
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

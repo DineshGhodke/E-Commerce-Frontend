@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import Sidebar from "./Sidebar";
-import UserService from "../../services/UserService"; // ✅ Adjust the path as needed
+import UserService from "../../services/UserService";
 import "./AdminDashboard.css";
 
 const ViewUsers = () => {
@@ -21,10 +21,23 @@ const ViewUsers = () => {
   const handleDelete = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        await UserService.deleteUser(userId); // ✅ Assumes a deleteUser method in UserService
-        loadUsers(); // Refresh the list
+        await UserService.deleteUser(userId);
+        loadUsers();
       } catch (error) {
         console.error("Failed to delete user:", error);
+      }
+    }
+  };
+
+  // Block or Unblock user by ID
+  const handleBlockToggle = async (userId, isBlocked) => {
+    const action = isBlocked ? "unblock" : "block";
+    if (window.confirm(`Are you sure you want to ${action} this user?`)) {
+      try {
+        await UserService.updateUserStatus(userId, !isBlocked); // ✅ You need to implement this
+        loadUsers();
+      } catch (error) {
+        console.error(`Failed to ${action} user:`, error);
       }
     }
   };
@@ -51,7 +64,9 @@ const ViewUsers = () => {
               <th>#</th>
               <th>Name</th>
               <th>Email</th>
+              <th>MobileNo</th>
               <th>Role</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -62,8 +77,21 @@ const ViewUsers = () => {
                   <td>{index + 1}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
+                  <td>{user.mobileNo}</td>
                   <td>{user.role}</td>
+                  <td>{user.isBlocked ? "Blocked" : "Active"}</td>
                   <td>
+                    <Button
+                      variant={user.isBlocked ? "success" : "warning"}
+                      size="sm"
+                      onClick={() =>
+                        handleBlockToggle(user.id, user.isBlocked)
+                      }
+                      className="me-2"
+                    >
+                      {user.isBlocked ? "Unblock" : "Block"}
+                    </Button>
+
                     <Button
                       variant="danger"
                       size="sm"
@@ -76,7 +104,7 @@ const ViewUsers = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center">
+                <td colSpan="7" className="text-center">
                   No users found
                 </td>
               </tr>

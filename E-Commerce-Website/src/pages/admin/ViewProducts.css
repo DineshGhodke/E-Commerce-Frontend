@@ -1,11 +1,16 @@
 /* ViewProducts.css */
 
 /* Base Styles */
-.container {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+
+
+  
+  /* Container Styling */
+
+  .dashboard-content{
+   width: 100%;
+  }
+.dashboard-content{
+  width: 100%;
   }
   
   h1 {

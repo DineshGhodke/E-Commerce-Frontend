@@ -13,7 +13,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="sidebar">
+    <div className="sidebar mt-4 ">
       <div className="profile-icon text-center my-3">
         <FaUserCircle size={60} color="#fff" />
         
