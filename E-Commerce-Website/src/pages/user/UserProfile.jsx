@@ -149,7 +149,7 @@ function Profile() {
           </Row>
           
           <div className="text-center mt-4">
-            <Button 
+            <Button  
               variant={isEditing ? "outline-secondary" : "primary"} 
               onClick={() => setIsEditing(!isEditing)}
               className="me-2"

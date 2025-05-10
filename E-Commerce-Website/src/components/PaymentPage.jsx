@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';  // ✅ added SweetAlert2
-import "./PaymentPage.css"; // Import your CSS file for styling
+import Swal from 'sweetalert2';
+import "./PaymentPage.css";
 
 const PaymentPage = () => {
   const { state } = useLocation();
@@ -20,35 +20,17 @@ const PaymentPage = () => {
 
   const validateForm = () => {
     if (!cardName || !cardNumber || !expiryDate || !cvv) {
-      Swal.fire({
-        title: 'Warning!',
-        text: 'Please fill in all payment details.',
-        icon: 'warning',
-        confirmButtonText: 'OK',
-      });
+      Swal.fire('Warning!', 'Please fill in all payment details.', 'warning');
       return false;
     }
-
     if (!/^\d{16}$/.test(cardNumber)) {
-      Swal.fire({
-        title: 'Invalid Card Number!',
-        text: 'Card number must be 16 digits.',
-        icon: 'error',
-        confirmButtonText: 'OK',
-      });
+      Swal.fire('Invalid Card Number!', 'Card number must be 16 digits.', 'error');
       return false;
     }
-
     if (!/^\d{3}$/.test(cvv)) {
-      Swal.fire({
-        title: 'Invalid CVV!',
-        text: 'CVV must be 3 digits.',
-        icon: 'error',
-        confirmButtonText: 'OK',
-      });
+      Swal.fire('Invalid CVV!', 'CVV must be 3 digits.', 'error');
       return false;
     }
-
     return true;
   };
 
@@ -69,42 +51,57 @@ const PaymentPage = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8081/order/placeOrder", {
+      const orderResponse = await fetch("http://localhost:8081/order/placeOrder", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
       });
 
-      const result = await response.text();
-      console.log("Order placed:", result);
+      const orderResult = await orderResponse.json();
+      console.log("Order placed:", orderResult);
 
-      if (response.ok) {
-        Swal.fire({
-          title: 'Payment Successful!',
-          text: result,
-          icon: 'success',
-          confirmButtonText: 'OK',
-        }).then(() => {
-          localStorage.removeItem("cartItems");
-          localStorage.removeItem("productIds");
-          navigate("/user/userDashboard");
+      if (orderResponse.ok) {
+        // ✅ Extract orderId from backend response (adjust if needed)
+        const orderId = orderResult.orderId || orderResult.id || null;
+
+        if (!orderId) {
+          Swal.fire('Error!', 'Order ID missing in response!', 'error');
+          return;
+        }
+
+        // ✅ Prepare payment record to store in backend
+        const paymentData = {
+          orderId: orderId,
+          userId: userId,
+          amount: totalAmount,
+          paymentMethod: "CREDIT_CARD", // or detect from form
+          paymentStatus: "COMPLETED",
+        };
+
+        const paymentResponse = await fetch("http://localhost:8081/payment/add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(paymentData),
         });
+
+        const paymentResult = await paymentResponse.text();
+        console.log("Payment stored:", paymentResult);
+
+        if (paymentResponse.ok) {
+          Swal.fire('Payment Successful!', 'Order and payment saved successfully!', 'success').then(() => {
+            localStorage.removeItem("cartItems");
+            localStorage.removeItem("productIds");
+            navigate("/user/userDashboard");
+          });
+        } else {
+          Swal.fire('Payment Failed!', paymentResult, 'error');
+        }
       } else {
-        Swal.fire({
-          title: 'Order Failed!',
-          text: result,
-          icon: 'error',
-          confirmButtonText: 'OK',
-        });
+        Swal.fire('Order Failed!', orderResult, 'error');
       }
     } catch (error) {
-      console.error("Error placing order:", error);
-      Swal.fire({
-        title: 'Error!',
-        text: 'An error occurred while placing the order.',
-        icon: 'error',
-        confirmButtonText: 'OK',
-      });
+      console.error("Error processing payment:", error);
+      Swal.fire('Error!', 'An error occurred while processing payment.', 'error');
     }
   };
 

@@ -14,6 +14,19 @@
   margin-bottom: 20px;
 }
 
+.edit-profile-button{
+  width: 120px;
+  font-size: 11px;
+  height: 41px;
+}
+
+.Admin-logout-button{
+   width: 120px;
+  font-size: 11px;
+  height: 41px;
+  margin-top: 10px;
+}
+
 .edit-profile-btn {
   align-self: center;
 }

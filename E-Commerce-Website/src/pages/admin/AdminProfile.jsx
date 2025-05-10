@@ -87,10 +87,11 @@ const AdminProfile = () => {
                 <Card.Text>
                   <strong>Email:</strong> {admin.email} <br />
                 </Card.Text>
-                <Button variant="primary" onClick={handleEditProfile} className="me-2">
+                <Button variant="primary" onClick={handleEditProfile} className="edit-profile-button me-2" >
+                  <i className="bi bi-pencil-square"></i>
                   Edit Profile
                 </Button>
-                <Button variant="danger" onClick={handleLogout}>
+                <Button variant="danger" onClick={handleLogout} className="Admin-logout-button">
                   Logout
                 </Button>
               </>

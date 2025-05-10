@@ -10,6 +10,10 @@ const ViewProducts = () => {
   const [error, setError] = useState(null);
   const [searchName, setSearchName] = useState("");
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 5; // You can adjust this number
+
   // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
@@ -78,6 +82,14 @@ const ViewProducts = () => {
     }
   };
 
+  // Pagination calculations
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(products.length / productsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="d-flex">
       <Sidebar />
@@ -116,8 +128,8 @@ const ViewProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {products.length > 0 ? (
-              products.map((product) => (
+            {currentProducts.length > 0 ? (
+              currentProducts.map((product) => (
                 <tr key={product.id}>
                   <td>{product.id}</td>
                   <td>{product.name}</td>
@@ -135,10 +147,10 @@ const ViewProducts = () => {
                     />
                   </td>
                   <td>
-                    <Link to={`/update-product/${product.id}`} className="btn btn-primary btn-sm me-2">
+                    <Link to={`/update-product/${product.id}`} className=" Edit-but  btn btn-primary btn-sm me-2">
                       Edit
                     </Link>
-                    <Button variant="danger" size="sm" onClick={() => handleDelete(product.id)}>
+                    <Button variant="danger" size="sm" onClick={() => handleDelete(product.id)} className="del-but">
                       Delete
                     </Button>
                   </td>
@@ -153,6 +165,31 @@ const ViewProducts = () => {
             )}
           </tbody>
         </Table>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <nav>
+            <ul className="pagination justify-content-center">
+              <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                <button className="page-link" onClick={() => paginate(currentPage - 1)}>
+                  Previous
+                </button>
+              </li>
+              {[...Array(totalPages)].map((_, index) => (
+                <li key={index + 1} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
+                  <button className="page-link" onClick={() => paginate(index + 1)}>
+                    {index + 1}
+                  </button>
+                </li>
+              ))}
+              <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                <button className="page-link" onClick={() => paginate(currentPage + 1)}>
+                  Next
+                </button>
+              </li>
+            </ul>
+          </nav>
+        )}
       </div>
     </div>
   );

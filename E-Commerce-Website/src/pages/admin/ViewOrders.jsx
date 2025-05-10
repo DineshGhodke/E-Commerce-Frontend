@@ -5,6 +5,8 @@ import './AdminDashboard.css';
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     fetchOrders();
@@ -29,11 +31,9 @@ function AdminOrders() {
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {
-      const response = await fetch(`http://localhost:8081/order/update/${orderId}`, { // Fixed backticks
+      const response = await fetch(`http://localhost:8081/order/update/${orderId}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })
       });
 
@@ -41,7 +41,6 @@ function AdminOrders() {
         throw new Error('Failed to update status');
       }
 
-      // Optimistically update the UI
       setOrders(prev =>
         prev.map(order =>
           order.id === orderId ? { ...order, status: newStatus } : order
@@ -54,6 +53,16 @@ function AdminOrders() {
   };
 
   const statusOptions = ['PENDING', 'CONFIRMED', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
+
+  // Calculate pagination
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentOrders = orders.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(orders.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const nextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
 
   return (
     <div className="d-flex">
@@ -78,8 +87,8 @@ function AdminOrders() {
             </tr>
           </thead>
           <tbody>
-            {orders.length > 0 ? (
-              orders.map((order) => (
+            {currentOrders.length > 0 ? (
+              currentOrders.map((order) => (
                 <tr key={order.id}>
                   <td>{order.id}</td>
                   <td>{order.userId || order.user_id || 'N/A'}</td>
@@ -120,6 +129,28 @@ function AdminOrders() {
             )}
           </tbody>
         </table>
+
+        {/* Pagination Controls */}
+        <nav aria-label="Order pagination">
+          <ul className="pagination justify-content-center">
+            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+              <button className="page-link" onClick={prevPage}>Previous</button>
+            </li>
+            {Array.from({ length: totalPages }, (_, idx) => idx + 1).map(number => (
+              <li
+                key={number}
+                className={`page-item ${currentPage === number ? 'active' : ''}`}
+              >
+                <button onClick={() => paginate(number)} className="page-link">
+                  {number}
+                </button>
+              </li>
+            ))}
+            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+              <button className="page-link" onClick={nextPage}>Next</button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   );

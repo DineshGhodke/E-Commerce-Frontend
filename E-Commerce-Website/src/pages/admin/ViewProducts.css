@@ -12,6 +12,17 @@
 .dashboard-content{
   width: 100%;
   }
+
+  .Edit-but{
+    width: 60px;
+    height: 35px;
+  }
+
+  .del-but{
+     width: 60px;
+    height: 35px;
+    margin-top: 9px;
+  }
   
   h1 {
     color: #2c3e50;

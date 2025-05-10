@@ -157,7 +157,7 @@ function Login() {
                 {errors.password && <div className="invalid-feedback">{errors.password}</div>}
               </div>
 
-              <div className="mb-3">
+              <div className="orle-opention   mb-3  ">
                 <label>Role</label>
                 <div className="input-group">
                   <span className="input-group-text"><i className="bi bi-person-badge-fill"></i></span>
@@ -167,7 +167,7 @@ function Login() {
                     onChange={handleChange}
                     required
                   >
-                    <option value="">Select role</option>
+                    <option value="" className="orle-opention ">Select role</option>
                     <option value="USER">User</option>
                     <option value="ADMIN">Admin</option>
                   </select>
