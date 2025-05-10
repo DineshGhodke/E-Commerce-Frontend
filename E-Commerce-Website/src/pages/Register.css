@@ -1,6 +1,6 @@
 .register-container {
   min-height: 100vh;
-  background: linear-gradient(#7096e6);
+
   padding: 20px;
   width: 100%;
 }
@@ -90,12 +90,4 @@ html, body {
   padding: 0;
 }
 
-.register-container {
-  min-height: 100vh;
-  background: linear-gradient(to bottom right, #7096e6, #4a69bd);
-  padding: 20px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+

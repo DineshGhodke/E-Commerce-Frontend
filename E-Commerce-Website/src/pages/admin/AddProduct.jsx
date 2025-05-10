@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from './Sidebar'; // ✅ Add this import
+import Sidebar from './Sidebar';
+import Swal from 'sweetalert2'; // ✅ Import SweetAlert2
 import './AddProduct.css';
 
 function AddProduct() {
@@ -52,14 +53,26 @@ function AddProduct() {
       });
 
       if (response.ok) {
-        alert('Product added successfully!');
-        navigate('/admin/products');
+        Swal.fire({
+          title: 'Success!',
+          text: `Product "${product.name}" added successfully!`,
+          icon: 'success',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          navigate('/admin/products'); // ✅ Navigate after user clicks OK
+        });
       } else {
         throw new Error('Error adding product');
       }
     } catch (error) {
       console.error('Error adding product:', error);
       setError('Failed to add product. Please try again later.');
+      Swal.fire({
+        title: 'Error',
+        text: 'Failed to add product. Please try again later.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
   };
 
@@ -73,7 +86,7 @@ function AddProduct() {
 
   return (
     <div className="d-flex">
-      <Sidebar /> {/* ✅ Add Sidebar here */}
+      <Sidebar />
 
       <div className="dashboard-content container mt-4">
         <h3>Add Product</h3>

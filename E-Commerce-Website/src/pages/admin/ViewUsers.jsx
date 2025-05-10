@@ -6,6 +6,8 @@ import "./AdminDashboard.css";
 
 const ViewUsers = () => {
   const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 5; // Adjust as needed
 
   // Load users from API
   const loadUsers = async () => {
@@ -34,7 +36,7 @@ const ViewUsers = () => {
     const action = isBlocked ? "unblock" : "block";
     if (window.confirm(`Are you sure you want to ${action} this user?`)) {
       try {
-        await UserService.updateUserStatus(userId, !isBlocked); // ✅ You need to implement this
+        await UserService.updateUserStatus(userId, !isBlocked);
         loadUsers();
       } catch (error) {
         console.error(`Failed to ${action} user:`, error);
@@ -45,6 +47,24 @@ const ViewUsers = () => {
   useEffect(() => {
     loadUsers();
   }, []);
+
+  // Pagination logic
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+  const totalPages = Math.ceil(users.length / usersPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handlePrevious = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
 
   return (
     <div className="d-flex">
@@ -71,10 +91,10 @@ const ViewUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {users.length > 0 ? (
-              users.map((user, index) => (
+            {currentUsers.length > 0 ? (
+              currentUsers.map((user, index) => (
                 <tr key={user.id}>
-                  <td>{index + 1}</td>
+                  <td>{indexOfFirstUser + index + 1}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.mobileNo}</td>
@@ -111,6 +131,43 @@ const ViewUsers = () => {
             )}
           </tbody>
         </Table>
+
+        {/* Pagination block */}
+        <nav aria-label="Page navigation example">
+          <ul className="pagination justify-content-center">
+            <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+              <button className="page-link" onClick={handlePrevious}>
+                Previous
+              </button>
+            </li>
+
+            {[...Array(totalPages)].map((_, index) => (
+              <li
+                key={index}
+                className={`page-item ${
+                  currentPage === index + 1 ? "active" : ""
+                }`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => handlePageChange(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+
+            <li
+              className={`page-item ${
+                currentPage === totalPages ? "disabled" : ""
+              }`}
+            >
+              <button className="page-link" onClick={handleNext}>
+                Next
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   );

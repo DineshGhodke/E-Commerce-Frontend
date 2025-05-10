@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar"; // ✅ Make sure to import Sidebar
+import Swal from "sweetalert2";  // ✅ Import SweetAlert2
 import "./AdminDashboard.css";  // ✅ Ensure you have dashboard-content styles
 
 const AddCategory = () => {
@@ -34,9 +35,18 @@ const AddCategory = () => {
       }
 
       const message = await response.text();
-      alert(message);
-      setCategory({ name: "", description: "" });
-      navigate("/admin/ViewCategories");
+
+      // ✅ Use Swal.fire here
+      Swal.fire({
+        title: "Success!",
+        text: `Category "${category.name}" added successfully!`,
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        setCategory({ name: "", description: "" });
+        navigate("/admin/ViewCategories");
+      });
+
     } catch (error) {
       console.error("Error adding category:", error);
       setError("Failed to add category. Please try again later.");

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Sidebar from "./Sidebar"; // ✅ Import Sidebar like in ViewUsers
-import "./ViewProducts.css"; // Keep your existing styles
+import Sidebar from "./Sidebar";
+import "./ViewProducts.css";
 import { Button, Table, Form, InputGroup } from "react-bootstrap";
 
 const ViewProducts = () => {
@@ -57,12 +57,17 @@ const ViewProducts = () => {
 
   // Search products by name
   const handleSearch = async () => {
+    if (!searchName.trim()) {
+      setError("Please enter a product name to search.");
+      return;
+    }
+
     try {
-      const response = await fetch(`http://localhost:8081/product/search/${searchName}`);
+      const response = await fetch(`http://localhost:8081/product/searchByName/${searchName}`);
       if (!response.ok) throw new Error("Failed to search products");
       const data = await response.json();
       if (data.length === 0) {
-        setError("No product found with the given name");
+        setError("No products found with the given name");
         setProducts([]);
       } else {
         setError(null);

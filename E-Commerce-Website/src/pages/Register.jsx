@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';  // ✅ import SweetAlert2
 import AdminService from '../services/UserService';
 import './Register.css';
 
@@ -61,11 +62,25 @@ function Register() {
 
     try {
       await AdminService.addAdminUser(formData);
-      alert('User registered successfully!');
-      navigate('/login');
+
+      // ✅ Use SweetAlert2 here
+      Swal.fire({
+        title: 'Success!',
+        text: `User "${formData.name}" registered successfully!`,
+        icon: 'success',
+        confirmButtonText: 'OK',
+      }).then(() => {
+        navigate('/login');
+      });
+
     } catch (error) {
       console.error(error);
-      alert('Error registering user');
+      Swal.fire({
+        title: 'Error!',
+        text: 'Error registering user. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
   };
 

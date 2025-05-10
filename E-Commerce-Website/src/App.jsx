@@ -13,6 +13,7 @@ import AddCategory from './pages/admin/AddCategory';
 import Categories from './components/Category/Categories';
 import CategoryPage from './pages/category/categorypage';
 import CartPage from "./components/CartPage";
+import PaymentPage from './components/PaymentPage';
 
 
 /* Admin Imports */
@@ -57,6 +58,7 @@ function AppContent() {
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/:categoryId" element={<CategoryPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
 
 
 

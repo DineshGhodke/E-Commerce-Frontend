@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import LoginService from '../services/LoginService';
 import './Login.css';
+import Swal from "sweetalert2"; 
 
 function Login() {
   const [loginData, setLoginData] = useState({
@@ -55,41 +56,42 @@ function Login() {
     try {
       const response = await LoginService.loginUser(loginData);
       console.log("Full API Response:", response);  // Debugging
+  if (response.status === 200 && response.data) {
+  Swal.fire({
+    title: "Success",
+    text: `Login successful! Welcome, ${response.data.name || "User"}!`,
+    icon: "success"
+  });
+
+  const userData = {
+    userId: response.data.userId || response.data.id || '',
+    name: response.data.name || '',
+    email: response.data.email || '',
+    role: response.data.role || 'USER',
+    joined: response.data.joined || "April 2023"
+  };
+
+  if (userData.userId) {
+    localStorage.setItem("id", userData.userId.toString());
+  } else {
+    console.error("No userId received from backend");
+    throw new Error("User ID missing in response");
+  }
+
+  localStorage.setItem("isLoggedIn", "true");
+  localStorage.setItem("role", response.data.role);
   
-      if (response.status === 200 && response.data) {
-        alert("Login successful!");
-  
-        // Ensure all required fields exist with fallbacks
-        const userData = {
-          userId: response.data.userId || response.data.id || '', // Multiple fallbacks
-          name: response.data.name || '',
-          email: response.data.email || '',
-          role: response.data.role || 'USER',
-          joined: response.data.joined || "April 2023"
-        };
-  
-        // Safely set localStorage
-        if (userData.userId) {
-          localStorage.setItem("id", userData.userId.toString());
-        } else {
-          console.error("No userId received from backend");
-          throw new Error("User ID missing in response");
-        }
-  
-       
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("role", response.data.role); // "ADMIN" ya "USER"
-        
-        if (response.data.role === 'ADMIN') {
-          localStorage.setItem("admin", JSON.stringify(userData));
-          navigate('/admin/AdminDashboard');
-        } else {
-          localStorage.setItem("user", JSON.stringify(userData));
-          navigate('/user/UserDashboard');
-        }
-      } else {
-        setInvalidCredentials(true);
-      }
+  if (response.data.role === 'ADMIN') {
+    localStorage.setItem("admin", JSON.stringify(userData));
+    navigate('/admin/AdminDashboard');
+  } else {
+    localStorage.setItem("user", JSON.stringify(userData));
+    navigate('/user/UserDashboard');
+  }
+} else {
+  setInvalidCredentials(true);
+}
+
     } catch (error) {
       setInvalidCredentials(true);
       console.error("Login failed:", error);
