@@ -27,7 +27,7 @@ const UserSidebar = () => {
         <Nav.Link as={Link} to="/user/PlaceOrder" className="nav-link">
           <FaBoxOpen /> Place Orders
         </Nav.Link>
-        <Nav.Link as={Link} to="/user/Profile" className="nav-link">
+        <Nav.Link as={Link} to="/user/AddAddressForm" className="nav-link">
           <FaUser /> Profile
         </Nav.Link>
         <Nav.Link as={Link} to="/login" className="nav-link text-danger">

@@ -13,6 +13,7 @@ import AddCategory from './pages/admin/AddCategory';
 import Categories from './components/Category/Categories';
 import CategoryPage from './pages/category/categorypage';
 import CartPage from "./components/CartPage";
+import CheckoutPage from './components/CheckoutPage';
 import PaymentPage from './components/PaymentPage';
 
 
@@ -31,6 +32,7 @@ import UserDashboard from './pages/user/UserDashboard';
 import { CartProvider } from './context/CartContext';
 import UserProfile from './pages/user/UserProfile';
 import MyOrders from './pages/user/MyOrders';
+import AddAddressForm from './pages/user/AddAddressForm';
 
 
 function AppContent() {
@@ -58,6 +60,7 @@ function AppContent() {
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/:categoryId" element={<CategoryPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/payment" element={<PaymentPage />} />
 
 
@@ -77,6 +80,7 @@ function AppContent() {
           <Route path="/user/UserDashboard" element={<UserDashboard />} />
           <Route path="/user/UserProfile" element={<UserProfile />} />
           <Route path="/user/MyOrders" element={<MyOrders />} />
+          <Route path="/user/AddAddressForm" element={<AddAddressForm />} />
 
         </Routes>
       </div>

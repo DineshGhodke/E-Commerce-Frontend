@@ -101,19 +101,20 @@
 // }
 
 // export default Navbar;
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
+import { CartContext } from '../context/CartContext';
 
 function Navbar() {
   const navigate = useNavigate();
-  const [search, setSearch] = useState('');
-  
+  const { cartCount } = useContext(CartContext);
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const role = localStorage.getItem("role"); // "ADMIN" ya "USER"
+  const role = localStorage.getItem("role");
+  const [search, setSearch] = React.useState('');
 
   const handleLogout = () => {
-    localStorage.clear(); // 🔥 clear all keys
+    localStorage.clear();
     navigate("/login");
   };
 
@@ -129,21 +130,14 @@ function Navbar() {
         <Link className="navbar-brand text-light" to="/">
           <i className="bi bi-shop"></i> E-Shop
         </Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-          <span className="navbar-toggler-icon"></span>
-        </button>
 
         <div className="collapse navbar-collapse bg-primary" id="mainNavbar">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link text-light" to="/">
-                <i className="bi bi-house-door"></i> Home
-              </Link>
+              <Link className="nav-link text-light" to="/">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-light" to="/products">
-                <i className="bi bi-bag"></i> Products
-              </Link>
+              <Link className="nav-link text-light" to="/products">Products</Link>
             </li>
           </ul>
 
@@ -159,21 +153,18 @@ function Navbar() {
             <li className="nav-item">
               <Link className="nav-link text-light" to="/cart">
                 <i className="bi bi-cart3"></i> Cart
+                {cartCount > 0 && (
+                  <span className="badge bg-danger ms-1">{cartCount}</span>
+                )}
               </Link>
             </li>
 
             {isLoggedIn ? (
               <>
                 <li className="nav-item">
-                  {role === "ADMIN" ? (
-                    <Link className="nav-link text-light" to="/admin/AdminDashboard">
-                      <i className="bi bi-person-circle"></i> Profile
-                    </Link>
-                  ) : (
-                    <Link className="nav-link text-light" to="/user/UserDashboard">
-                      <i className="bi bi-person-circle"></i> Profile
-                    </Link>
-                  )}
+                  <Link className="nav-link text-light" to={role === "ADMIN" ? "/admin/AdminDashboard" : "/user/UserDashboard"}>
+                    <i className="bi bi-person-circle"></i> Profile
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <button className="btn btn-link nav-link text-light" onClick={handleLogout}>
@@ -184,14 +175,10 @@ function Navbar() {
             ) : (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link text-light" to="/login">
-                    <i className="bi bi-box-arrow-in-right"></i> Login
-                  </Link>
+                  <Link className="nav-link text-light" to="/login">Login</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link text-light" to="/register">
-                    <i className="bi bi-person-plus"></i> Register
-                  </Link>
+                  <Link className="nav-link text-light" to="/register">Register</Link>
                 </li>
               </>
             )}

@@ -1,26 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container, Button, Row, Col, Card } from 'react-bootstrap';
-import Swal from 'sweetalert2';  // ✅ added import
+import Swal from 'sweetalert2';
+import axios from 'axios';
+import { CartContext } from '../context/CartContext';
 import './ProductInfo.css';
 
 function ProductInfo() {
   const { state } = useLocation();
+  const { updateCartCount } = useContext(CartContext);
 
   if (!state) {
     return <h4 className="text-center mt-5">No product selected!</h4>;
   }
 
   const { image, title, desc, price, categoryName, discount, productId } = state;
-  console.log("Received Product ID:", productId); // Debug log
 
   const handleOrder = () => {
-    alert(`Order placed for: ${title}`);
+    Swal.fire({
+      title: 'Order Placed!',
+      text: `Order placed for: ${title}`,
+      icon: 'info',
+      confirmButtonText: 'OK',
+    });
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
+    // ✅ 1. Local cart logic (works even without login)
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-
     const existingItem = cartItems.find(item => item.id === productId);
 
     if (existingItem) {
@@ -28,29 +35,47 @@ function ProductInfo() {
     } else {
       cartItems.push({
         id: productId,
-        image: image,
+        image,
         name: title,
-        price: price,
+        price,
         quantity: 1,
-        desc: desc
+        desc
       });
     }
 
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
+    // Maintain product ID list
     let storedProductIds = JSON.parse(localStorage.getItem("productIds")) || [];
     if (!storedProductIds.includes(productId)) {
       storedProductIds.push(productId);
     }
     localStorage.setItem("productIds", JSON.stringify(storedProductIds));
 
-    console.log("Cart items:", cartItems);
-    console.log("Stored product IDs:", storedProductIds);
+    updateCartCount(); // 🔄 Update cart icon
 
-    // ✅ replaced alert with Swal.fire
+    // ✅ 2. Backend cart logic (only if logged in)
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.userId) {
+      try {
+        await axios.post("http://localhost:8081/cart/addcart", {
+          userId: user.userId,
+          productId: productId,
+          quantity: 1
+        });
+        console.log("✅ Cart saved to backend");
+      } catch (error) {
+        console.error("❌ Backend cart save failed:", error);
+        // Optional: Silent fail
+      }
+    } else {
+      console.log("ℹ️ Not logged in - skipping backend cart save");
+    }
+
+    // ✅ 3. Success alert (always shown)
     Swal.fire({
-      title: 'Success!',
-      text: `Product "${title}" added to cart successfully!`,
+      title: 'Added to Cart!',
+      text: `Product "${title}" added to cart.`,
       icon: 'success',
       confirmButtonText: 'OK',
     });
@@ -81,8 +106,9 @@ function ProductInfo() {
           <p className="badge bg-light text-dark mt-2">Free Delivery</p>
           <p><strong>Category:</strong> {categoryName}</p>
           <p><strong>Description:</strong> {desc}</p>
+
           <div className="button-tow">
-            <Button variant="primary" onClick={handleAddToCart} className='add-cart-button mt-2'>
+            <Button variant="primary" onClick={handleAddToCart} className="add-cart-button mt-2">
               🛒 Add to Cart
             </Button>
             <Button variant="primary" onClick={handleOrder}>
@@ -96,6 +122,9 @@ function ProductInfo() {
 }
 
 export default ProductInfo;
+
+
+
 
 
 
